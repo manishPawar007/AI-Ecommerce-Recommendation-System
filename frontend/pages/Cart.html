@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+
+GadgetWorld | My Cart
+
+</title>
+
+<link
+rel="stylesheet"
+href="../css/style.css"
+>
+
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com"
+>
+
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin
+>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet"
+>
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+>
+
+</head>
+
+<body>
+
+<!-- ===========================
+        NAVBAR
+=========================== -->
+
+<nav class="navbar">
+
+<div class="logo">
+
+<span style="font-size:34px;">
+
+🛍
+
+</span>
+
+<div>
+
+<h2>
+
+GadgetWorld
+
+</h2>
+
+<small>
+
+Smart Shopping Powered by AI
+
+</small>
+
+</div>
+
+</div>
+
+<div class="nav-links">
+
+<a href="Home.html">
+
+Home
+
+</a>
+
+<a href="Products.html">
+
+Products
+
+</a>
+
+<a href="Wishlist.html">
+
+Wishlist
+
+</a>
+
+<a href="Cart.html">
+
+Cart
+
+</a>
+
+<a href="Orders.html">
+
+Orders
+
+</a>
+
+<a href="Profile.html">
+
+Profile
+
+</a>
+
+<a
+id="analyticsLink"
+href="Analytics.html"
+>
+
+Analytics
+
+</a>
+
+</div>
+
+</nav>
+
+<div class="container">
+
+<!-- ===========================
+        HERO
+=========================== -->
+
+<div class="hero">
+
+<span class="badge">
+
+🛒 SHOPPING CART
+
+</span>
+
+<br><br>
+
+<h1>
+
+Your Shopping
+
+<span style="color:#FFD54F;">
+
+Cart
+
+</span>
+
+</h1>
+
+<br>
+
+<p>
+
+Review your selected gadgets,
+apply discounts,
+and proceed to secure checkout.
+
+</p>
+
+<br>
+
+<div class="btn-group">
+
+<button
+
+class="primary-btn"
+
+onclick="
+window.location.href='Products.html'
+"
+
+>
+
+Continue Shopping
+
+</button>
+
+<button
+
+class="buy-btn"
+
+onclick="goCheckout()"
+
+>
+
+Checkout
+
+</button>
+
+</div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        CART STATS
+=========================== -->
+
+<div class="stats-grid">
+
+<div class="stat-card">
+
+<h2
+id="cartItems"
+>
+
+0
+
+</h2>
+
+<p>
+
+Items
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2
+id="cartTotal"
+>
+
+₹0
+
+</h2>
+
+<p>
+
+Total
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+🚚
+
+</h2>
+
+<p>
+
+Free Delivery
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+🤖
+
+</h2>
+
+<p>
+
+AI Savings
+
+</p>
+
+</div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        CART ITEMS
+=========================== -->
+
+<h2 class="section-title">
+
+🛒 Cart Items
+
+</h2>
+
+<div
+
+id="cart"
+
+class="grid product-grid"
+
+>
+
+<div class="card">
+
+<div class="loading">
+
+</div>
+
+<br>
+
+<h2>
+
+Loading Cart...
+
+</h2>
+
+</div>
+
+</div>
+
+<br>
+<!-- ===========================
+        COUPON SECTION
+=========================== -->
+
+<div class="card">
+
+<h2>
+
+🎁 Apply Coupon
+
+</h2>
+
+<br>
+
+<div
+style="
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+"
+>
+
+<input
+
+id="coupon"
+
+placeholder="Enter Coupon Code"
+
+style="flex:1;"
+
+>
+
+<button
+
+class="primary-btn"
+
+onclick="applyCoupon()"
+
+>
+
+Apply Coupon
+
+</button>
+
+</div>
+
+<br>
+
+<p
+
+id="couponMessage"
+
+style="
+font-weight:bold;
+color:green;
+"
+
+>
+
+</p>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        AI SAVINGS
+=========================== -->
+
+<div class="hero">
+
+<span class="badge">
+
+🤖 AI SMART SAVINGS
+
+</span>
+
+<br><br>
+
+<h1>
+
+Congratulations!
+
+</h1>
+
+<br>
+
+<p>
+
+Our AI found the best available
+offers for your cart.
+
+</p>
+
+<br>
+
+<h2
+style="
+color:#FFD54F;
+"
+>
+
+Extra Savings up to ₹500
+
+</h2>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        DELIVERY INFO
+=========================== -->
+
+<div class="card">
+
+<h2>
+
+🚚 Delivery Benefits
+
+</h2>
+
+<br>
+
+<table>
+
+<tr>
+
+<th>
+
+Delivery
+
+</th>
+
+<td>
+
+FREE
+
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+
+Estimated Time
+
+</th>
+
+<td>
+
+3 - 5 Business Days
+
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+
+Packaging
+
+</th>
+
+<td>
+
+Premium Secure Packaging
+
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+
+Tracking
+
+</th>
+
+<td>
+
+Real-Time Tracking
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        CART SUMMARY
+=========================== -->
+
+<div class="card">
+
+<h2>
+
+📦 Cart Summary
+
+</h2>
+
+<br>
+
+<table>
+
+<tr>
+
+<th>
+
+Items
+
+</th>
+
+<td
+id="totalItems"
+>
+
+0
+
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+
+Subtotal
+
+</th>
+
+<td
+id="estimatedTotal"
+>
+
+₹0
+
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+
+Delivery
+
+</th>
+
+<td>
+
+FREE
+
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+
+Discount
+
+</th>
+
+<td
+style="
+color:green;
+"
+>
+
+₹0
+
+</td>
+
+</tr>
+
+<tr>
+
+<th>
+
+Final Total
+
+</th>
+
+<td
+
+id="finalTotal"
+
+style="
+font-size:22px;
+font-weight:bold;
+color:#2874f0;
+"
+
+>
+
+₹0
+
+</td>
+
+</tr>
+
+</table>
+
+<br>
+
+<div
+class="btn-group"
+>
+
+<a
+href="Products.html"
+>
+
+<button
+class="primary-btn"
+>
+
+🛍 Continue Shopping
+
+</button>
+
+</a>
+
+<button
+
+id="checkoutBtn"
+
+class="buy-btn"
+
+onclick="goCheckout()"
+
+>
+
+💳 Secure Checkout
+
+</button>
+
+</div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        SECURITY
+=========================== -->
+
+<div class="stats-grid">
+
+<div class="stat-card">
+
+<h2>
+
+🔒
+
+</h2>
+
+<p>
+
+256-bit SSL Security
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+🛡
+
+</h2>
+
+<p>
+
+Safe Payment
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+🚚
+
+</h2>
+
+<p>
+
+Fast Delivery
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+💯
+
+</h2>
+
+<p>
+
+100% Genuine Products
+
+</p>
+
+</div>
+
+</div>
+
+<br>
+<!-- ===========================
+        CUSTOMER REVIEWS
+=========================== -->
+
+<h2 class="section-title">
+
+💬 What Customers Say
+
+</h2>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h2>⭐⭐⭐⭐⭐</h2>
+
+        <p>
+
+            Fast delivery and premium
+            product quality.
+
+        </p>
+
+        <br>
+
+        <b>Rahul Sharma</b>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>⭐⭐⭐⭐⭐</h2>
+
+        <p>
+
+            Best gadget shopping
+            experience with AI recommendations.
+
+        </p>
+
+        <br>
+
+        <b>Priya Patel</b>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>⭐⭐⭐⭐⭐</h2>
+
+        <p>
+
+            Amazing discounts and
+            secure checkout process.
+
+        </p>
+
+        <br>
+
+        <b>Aman Verma</b>
+
+    </div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        MOBILE APP
+=========================== -->
+
+<div class="hero">
+
+<span class="badge">
+
+📱 COMING SOON
+
+</span>
+
+<br><br>
+
+<h1>
+
+GadgetWorld Mobile App
+
+</h1>
+
+<br>
+
+<p>
+
+Track orders,
+manage your cart,
+receive AI recommendations
+and exclusive app-only offers.
+
+</p>
+
+<br>
+
+<div class="btn-group">
+
+<button class="buy-btn">
+
+Download Soon
+
+</button>
+
+<button class="primary-btn">
+
+Learn More
+
+</button>
+
+</div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        NEWSLETTER
+=========================== -->
+
+<div class="card">
+
+<h2>
+
+📧 Subscribe for Exclusive Deals
+
+</h2>
+
+<br>
+
+<div
+style="
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+"
+>
+
+<input
+
+id="newsletterEmail"
+
+type="email"
+
+placeholder="Enter Your Email"
+
+style="flex:1;"
+
+>
+
+<button
+
+class="primary-btn"
+
+onclick="subscribeNewsletter()"
+
+>
+
+Subscribe
+
+</button>
+
+</div>
+
+<br>
+
+<p>
+
+Get notified about price drops,
+exclusive coupons and AI recommendations.
+
+</p>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        FOOTER
+=========================== -->
+
+<footer class="footer">
+
+<div class="stats-grid">
+
+<div>
+
+<h2>
+
+🛍 GadgetWorld
+
+</h2>
+
+<br>
+
+<p>
+
+Smart Shopping Powered by AI
+
+</p>
+
+<p>
+
+India's Trusted Gadget Store
+
+</p>
+
+</div>
+
+<div>
+
+<h3>
+
+Quick Links
+
+</h3>
+
+<br>
+
+<p>Home</p>
+
+<p>Products</p>
+
+<p>Cart</p>
+
+<p>Orders</p>
+
+</div>
+
+<div>
+
+<h3>
+
+Customer Care
+
+</h3>
+
+<br>
+
+<p>Help Center</p>
+
+<p>Returns</p>
+
+<p>Shipping</p>
+
+<p>Privacy Policy</p>
+
+</div>
+
+<div>
+
+<h3>
+
+Contact
+
+</h3>
+
+<br>
+
+<p>
+
+📧 support@gadgetworld.com
+
+</p>
+
+<p>
+
+📞 +91 9876543210
+
+</p>
+
+<p>
+
+🌍 India
+
+</p>
+
+</div>
+
+</div>
+
+<br>
+
+<hr>
+
+<br>
+
+<p>
+
+© 2026 GadgetWorld.
+All Rights Reserved.
+
+</p>
+
+<p>
+
+Powered by FastAPI,
+PostgreSQL &
+AI Recommendation System.
+
+</p>
+
+</footer>
+
+<script src="../js/api.js"></script>
+
+<script>
+   
+    // ==========================================
+// GADGETWORLD CART
+// ==========================================
+
+// =============================
+// LOGIN CHECK
+// =============================
+
+if (!localStorage.getItem("token")) {
+
+    window.location.href = "Login.html";
+
+}
+
+// =============================
+// USER DETAILS
+// =============================
+
+const role =
+    localStorage.getItem("role");
+
+const userId =
+    localStorage.getItem("user_id");
+
+// =============================
+// HIDE ANALYTICS
+// =============================
+
+if (role !== "admin") {
+
+    const analytics =
+        document.getElementById(
+            "analyticsLink"
+        );
+
+    if (analytics) {
+
+        analytics.style.display =
+            "none";
+
+    }
+
+}
+
+// =============================
+// GLOBAL VARIABLES
+// =============================
+
+let cartItems = [];
+
+let totalItems = 0;
+
+let totalAmount = 0;
+
+let discount = 0;
+
+// =============================
+// NEWSLETTER
+// =============================
+
+function subscribeNewsletter() {
+
+    const email =
+        document
+        .getElementById(
+            "newsletterEmail"
+        )
+        .value
+        .trim();
+
+    if (email === "") {
+
+        alert(
+            "Please enter your email."
+        );
+
+        return;
+
+    }
+
+    alert(
+        "🎉 Successfully Subscribed!"
+    );
+
+    document.getElementById(
+        "newsletterEmail"
+    ).value = "";
+
+}
+
+// =============================
+// APPLY COUPON
+// =============================
+
+function applyCoupon() {
+
+    const coupon =
+        document
+        .getElementById(
+            "coupon"
+        )
+        .value
+        .trim()
+        .toUpperCase();
+
+    const msg =
+        document.getElementById(
+            "couponMessage"
+        );
+
+    discount = 0;
+
+    if (coupon === "") {
+
+        msg.style.color = "red";
+
+        msg.innerHTML =
+            "Enter Coupon Code";
+
+        return;
+
+    }
+
+    if (coupon === "GADGET500") {
+
+        discount = 500;
+
+        msg.style.color = "green";
+
+        msg.innerHTML =
+            "✅ ₹500 Discount Applied";
+
+    }
+
+    else if (coupon === "WELCOME10") {
+
+        discount = 300;
+
+        msg.style.color = "green";
+
+        msg.innerHTML =
+            "✅ ₹300 Welcome Discount";
+
+    }
+
+    else {
+
+        msg.style.color = "red";
+
+        msg.innerHTML =
+            "❌ Invalid Coupon";
+
+    }
+
+    updateSummary();
+
+}
+
+// =============================
+// UPDATE SUMMARY
+// =============================
+
+function updateSummary() {
+
+    const finalTotal =
+        Math.max(
+            totalAmount - discount,
+            0
+        );
+
+    document.getElementById(
+        "cartItems"
+    ).innerText =
+        totalItems;
+
+    document.getElementById(
+        "cartTotal"
+    ).innerText =
+        "₹" +
+        totalAmount.toLocaleString();
+
+    document.getElementById(
+        "totalItems"
+    ).innerText =
+        totalItems;
+
+    document.getElementById(
+        "estimatedTotal"
+    ).innerText =
+        "₹" +
+        totalAmount.toLocaleString();
+
+    document.getElementById(
+        "finalTotal"
+    ).innerText =
+        "₹" +
+        finalTotal.toLocaleString();
+
+    localStorage.setItem(
+        "total",
+        finalTotal
+    );
+
+}
+
+// =============================
+// LOAD CART
+// =============================
+
+async function loadCart() {
+
+    try {
+
+        cartItems =
+            await apiRequest(
+
+                `/cart/?user_id=${userId}`
+
+            );
+
+        totalItems = 0;
+
+        totalAmount = 0;
+
+        let html = "";
+
+        cartItems.forEach(item => {
+
+            const price =
+                Number(
+                    item.product?.price || 0
+                );
+
+            const qty =
+                Number(item.quantity);
+
+            const subtotal =
+                price * qty;
+
+            totalItems += qty;
+
+            totalAmount += subtotal;
+
+            html += `
+
+<div class="card product-card">
+
+<span class="badge">
+
+🛒 In Cart
+
+</span>
+
+<img
+
+src="${item.product?.image_url || '../assets/default-product.png'}"
+
+class="product-image"
+
+>
+
+<h3>
+
+${item.product?.description || "Product"}
+
+</h3>
+
+<div class="rating">
+
+⭐ ${item.product?.rating || 4.5}
+
+</div>
+
+<p>
+
+Price :
+₹${price.toLocaleString()}
+
+</p>
+
+<p>
+
+Quantity :
+${qty}
+
+</p>
+
+<p class="price">
+
+₹${subtotal.toLocaleString()}
+
+</p>
+
+<div class="btn-group">
+
+<button
+
+class="buy-btn"
+
+onclick="removeCart(${item.id})"
+
+>
+
+🗑 Remove
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+        });
+
+        if (cartItems.length === 0) {
+
+            html = `
+
+<div class="card">
+
+<div style="text-align:center;padding:40px;">
+
+<div style="font-size:80px;">
+
+🛒
+
+</div>
+
+<br>
+
+<h2>
+
+Your Cart Is Empty
+
+</h2>
+
+<br>
+
+<p>
+
+Looks like you haven't added
+anything yet.
+
+</p>
+
+<br>
+
+<button
+
+class="primary-btn"
+
+onclick="
+window.location.href='Products.html'
+"
+
+>
+
+Start Shopping
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+            document.getElementById(
+                "checkoutBtn"
+            ).disabled = true;
+
+        }
+
+        document.getElementById(
+            "cart"
+        ).innerHTML = html;
+
+        updateSummary();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "cart"
+        ).innerHTML =
+
+        `<div class="card">
+
+        <h2>
+
+        Unable To Load Cart
+
+        </h2>
+
+        </div>`;
+
+    }
+
+}
+// ==========================================
+// REMOVE CART ITEM
+// ==========================================
+
+async function removeCart(id) {
+
+    const confirmDelete = confirm(
+        "Remove this item from your cart?"
+    );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+
+        await apiRequest(
+            `/cart/${id}`,
+            "DELETE"
+        );
+
+        alert("🗑 Item Removed Successfully");
+
+        loadCart();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            error.message ||
+            "Unable to remove item."
+        );
+
+    }
+
+}
+
+// ==========================================
+// PROCEED TO CHECKOUT
+// ==========================================
+
+function goCheckout() {
+
+    const finalTotal = Math.max(
+        totalAmount - discount,
+        0
+    );
+
+    if (finalTotal <= 0) {
+
+        alert(
+            "Your cart is empty."
+        );
+
+        return;
+
+    }
+
+    localStorage.setItem(
+        "total",
+        finalTotal
+    );
+
+    window.location.href =
+        "Checkout.html";
+
+}
+
+// ==========================================
+// REFRESH CART
+// ==========================================
+
+function refreshCart() {
+
+    loadCart();
+
+}
+
+// ==========================================
+// AUTO REFRESH EVERY 30 SECONDS
+// ==========================================
+
+setInterval(function () {
+
+    loadCart();
+
+}, 30000);
+
+// ==========================================
+// PAGE LOAD
+// ==========================================
+
+window.addEventListener(
+
+    "DOMContentLoaded",
+
+    function () {
+
+        loadCart();
+
+    }
+
+);
+
+// ==========================================
+// PREVENT BACK AFTER CHECKOUT
+// ==========================================
+
+window.history.pushState(
+    null,
+    "",
+    window.location.href
+);
+
+window.onpopstate = function () {
+
+    window.history.pushState(
+        null,
+        "",
+        window.location.href
+    );
+
+};
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+
+        GadgetWorld | My Orders
+
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+<!-- ===========================
+            NAVBAR
+=========================== -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <span style="font-size:34px;">
+
+            🛍
+
+        </span>
+
+        <div>
+
+            <h2>
+
+                GadgetWorld
+
+            </h2>
+
+            <small>
+
+                Smart Shopping Powered by AI
+
+            </small>
+
+        </div>
+
+    </div>
+
+    <div class="nav-links">
+
+        <a href="Home.html">
+
+            Home
+
+        </a>
+
+        <a href="Products.html">
+
+            Products
+
+        </a>
+
+        <a href="Cart.html">
+
+            Cart
+
+        </a>
+
+        <a href="Wishlist.html">
+
+            Wishlist
+
+        </a>
+
+        <a href="Orders.html">
+
+            Orders
+
+        </a>
+
+        <a href="Profile.html">
+
+            Profile
+
+        </a>
+
+        <a
+            id="analyticsLink"
+            href="Analytics.html"
+        >
+
+            Analytics
+
+        </a>
+
+    </div>
+
+</nav>
+
+<div class="container">
+
+<!-- ===========================
+            HERO
+=========================== -->
+
+<div class="hero">
+
+    <span class="badge">
+
+        📦 ORDER MANAGEMENT
+
+    </span>
+
+    <br><br>
+
+    <h1>
+
+        My Orders
+
+    </h1>
+
+    <br>
+
+    <p>
+
+        Track your purchases,
+        monitor delivery,
+        download invoices,
+        and reorder your favourite gadgets anytime.
+
+    </p>
+
+    <br>
+
+    <div class="btn-group">
+
+        <button
+
+            class="buy-btn"
+
+            onclick="
+                window.location.href='Products.html';
+            "
+
+        >
+
+            🛍 Continue Shopping
+
+        </button>
+
+        <button
+
+            class="primary-btn"
+
+            onclick="loadOrders()"
+
+        >
+
+            🔄 Refresh Orders
+
+        </button>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        ORDER STATISTICS
+=========================== -->
+
+<h2 class="section-title">
+
+    📊 Order Summary
+
+</h2>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h2 id="orderCount">
+
+            0
+
+        </h2>
+
+        <p>
+
+            Total Orders
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2 id="totalSpent">
+
+            ₹0
+
+        </h2>
+
+        <p>
+
+            Total Spending
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2 id="deliveredCount">
+
+            0
+
+        </h2>
+
+        <p>
+
+            Delivered
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2 id="pendingCount">
+
+            0
+
+        </h2>
+
+        <p>
+
+            Pending
+
+        </p>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        SEARCH & FILTER
+=========================== -->
+
+<div class="card">
+
+    <div
+        class="search-box"
+    >
+
+        <input
+
+            id="searchOrder"
+
+            placeholder="Search Order ID..."
+
+        >
+
+        <select
+            id="statusFilter"
+        >
+
+            <option value="">
+
+                All Orders
+
+            </option>
+
+            <option value="Pending">
+
+                Pending
+
+            </option>
+
+            <option value="Confirmed">
+
+                Confirmed
+
+            </option>
+
+            <option value="Delivered">
+
+                Delivered
+
+            </option>
+
+            <option value="Cancelled">
+
+                Cancelled
+
+            </option>
+
+        </select>
+
+        <button
+
+            class="primary-btn"
+
+            onclick="filterOrders()"
+
+        >
+
+            Search
+
+        </button>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        ORDER LIST
+=========================== -->
+
+<h2 class="section-title">
+
+    📦 Your Orders
+
+</h2>
+
+<div
+
+    id="orders"
+
+    class="grid product-grid"
+
+>
+
+    <div class="card">
+
+        <div class="loading">
+
+        </div>
+
+        <br>
+
+        <h2>
+
+            Loading Orders...
+
+        </h2>
+
+    </div>
+
+</div>
+
+<br>
+<!-- ===========================
+        DELIVERY STATUS
+=========================== -->
+
+<div class="card">
+
+    <h2>
+
+        🚚 Delivery Status
+
+    </h2>
+
+    <br>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <h2>
+
+                📦
+
+            </h2>
+
+            <p>
+
+                Order Placed
+
+            </p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>
+
+                📋
+
+            </h2>
+
+            <p>
+
+                Processing
+
+            </p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>
+
+                🚚
+
+            </h2>
+
+            <p>
+
+                Shipped
+
+            </p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>
+
+                ✅
+
+            </h2>
+
+            <p>
+
+                Delivered
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        RECENT ORDERS
+=========================== -->
+
+<div class="card">
+
+    <div
+        style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            flex-wrap:wrap;
+            gap:20px;
+        "
+    >
+
+        <div>
+
+            <h2>
+
+                🛍 Recent Orders
+
+            </h2>
+
+            <p>
+
+                View and manage your latest purchases.
+
+            </p>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="loadOrders()"
+        >
+
+            🔄 Refresh
+
+        </button>
+
+    </div>
+
+    <br>
+
+    <div
+        id="orders"
+        class="grid product-grid"
+    >
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        ORDER FEATURES
+=========================== -->
+
+<h2 class="section-title">
+
+    ⭐ Order Features
+
+</h2>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h2>
+
+            📍
+
+        </h2>
+
+        <h3>
+
+            Live Tracking
+
+        </h3>
+
+        <p>
+
+            Track every order in real time.
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>
+
+            📄
+
+        </h2>
+
+        <h3>
+
+            Download Invoice
+
+        </h3>
+
+        <p>
+
+            Download GST invoice anytime.
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>
+
+            🔄
+
+        </h2>
+
+        <h3>
+
+            Easy Returns
+
+        </h3>
+
+        <p>
+
+            Hassle-free returns and refunds.
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>
+
+            ⭐
+
+        </h2>
+
+        <h3>
+
+            Rate Products
+
+        </h3>
+
+        <p>
+
+            Share your shopping experience.
+
+        </p>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        ORDER HELP
+=========================== -->
+
+<div class="hero">
+
+    <span class="badge">
+
+        💬 Need Help?
+
+    </span>
+
+    <br><br>
+
+    <h1>
+
+        Order Support Center
+
+    </h1>
+
+    <br>
+
+    <p>
+
+        Having issues with delivery,
+        payment or returns?
+        Our support team is available
+        24×7 to help you.
+
+    </p>
+
+    <br>
+
+    <div class="btn-group">
+
+        <button
+            class="primary-btn"
+        >
+
+            📞 Contact Support
+
+        </button>
+
+        <button
+            class="buy-btn"
+        >
+
+            💬 Live Chat
+
+        </button>
+
+    </div>
+
+</div>
+
+<br>
+<!-- ===========================
+        SHOPPING BENEFITS
+=========================== -->
+
+<h2 class="section-title">
+
+    🌟 Why Shop With GadgetWorld?
+
+</h2>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h2>
+
+            🚚
+
+        </h2>
+
+        <h3>
+
+            Fast Delivery
+
+        </h3>
+
+        <p>
+
+            Lightning-fast shipping across India.
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>
+
+            🔒
+
+        </h2>
+
+        <h3>
+
+            Secure Payment
+
+        </h3>
+
+        <p>
+
+            100% encrypted payment gateway.
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>
+
+            🎁
+
+        </h2>
+
+        <h3>
+
+            Exclusive Offers
+
+        </h3>
+
+        <p>
+
+            Daily deals and member-only discounts.
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>
+
+            🤖
+
+        </h2>
+
+        <h3>
+
+            AI Recommendations
+
+        </h3>
+
+        <p>
+
+            Personalized shopping experience.
+
+        </p>
+
+    </div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        CUSTOMER REVIEWS
+=========================== -->
+
+<h2 class="section-title">
+
+    💬 Customer Reviews
+
+</h2>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h2>
+
+            ⭐⭐⭐⭐⭐
+
+        </h2>
+
+        <p>
+
+            Amazing shopping experience with
+            super fast delivery.
+
+        </p>
+
+        <br>
+
+        <b>
+
+            — Rahul Sharma
+
+        </b>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>
+
+            ⭐⭐⭐⭐⭐
+
+        </h2>
+
+        <p>
+
+            Best gadget shopping website.
+            Easy order tracking.
+
+        </p>
+
+        <br>
+
+        <b>
+
+            — Priya Patel
+
+        </b>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>
+
+            ⭐⭐⭐⭐⭐
+
+        </h2>
+
+        <p>
+
+            Genuine products and
+            AI recommendations are excellent.
+
+        </p>
+
+        <br>
+
+        <b>
+
+            — Aman Verma
+
+        </b>
+
+    </div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        NEWSLETTER
+=========================== -->
+
+<div class="hero">
+
+    <span class="badge">
+
+        📧 Stay Updated
+
+    </span>
+
+    <br><br>
+
+    <h1>
+
+        Subscribe to GadgetWorld
+
+    </h1>
+
+    <br>
+
+    <p>
+
+        Receive exclusive deals,
+        latest launches,
+        and AI-powered recommendations.
+
+    </p>
+
+    <br>
+
+    <div class="search-box">
+
+        <input
+
+            id="newsletterEmail"
+
+            type="email"
+
+            placeholder="Enter Your Email"
+
+        >
+
+        <button
+
+            class="buy-btn"
+
+            onclick="subscribeNewsletter()"
+
+        >
+
+            Subscribe
+
+        </button>
+
+    </div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        FOOTER
+=========================== -->
+
+<footer class="footer">
+
+    <div class="stats-grid">
+
+        <div>
+
+            <h2>
+
+                🛍 GadgetWorld
+
+            </h2>
+
+            <br>
+
+            <p>
+
+                Smart Shopping Powered by AI
+
+            </p>
+
+            <p>
+
+                Fast • Secure • Trusted
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3>
+
+                Quick Links
+
+            </h3>
+
+            <br>
+
+            <p>Home</p>
+
+            <p>Products</p>
+
+            <p>Orders</p>
+
+            <p>Profile</p>
+
+        </div>
+
+        <div>
+
+            <h3>
+
+                Customer Support
+
+            </h3>
+
+            <br>
+
+            <p>
+
+                Help Center
+
+            </p>
+
+            <p>
+
+                Order Tracking
+
+            </p>
+
+            <p>
+
+                Return Policy
+
+            </p>
+
+            <p>
+
+                Privacy Policy
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3>
+
+                Contact
+
+            </h3>
+
+            <br>
+
+            <p>
+
+                📧 support@gadgetworld.com
+
+            </p>
+
+            <p>
+
+                📞 +91 9876543210
+
+            </p>
+
+            <p>
+
+                🌍 India
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <hr>
+
+    <br>
+
+    <p>
+
+        © 2026 GadgetWorld.
+        All Rights Reserved.
+
+    </p>
+
+    <p>
+
+        Powered by FastAPI,
+        PostgreSQL &
+        AI Recommendation System.
+
+    </p>
+
+</footer>
+
+<script src="../js/api.js"></script>
+
+<script>
+    
+    // ============================================
+// GADGETWORLD ORDERS
+// ============================================
+
+// -----------------------------
+// Login Check
+// -----------------------------
+
+if (!localStorage.getItem("token")) {
+
+    window.location.href = "Login.html";
+
+}
+
+// -----------------------------
+// User Details
+// -----------------------------
+
+const role =
+    localStorage.getItem("role");
+
+const userId =
+    localStorage.getItem("user_id");
+
+// -----------------------------
+// Hide Analytics
+// -----------------------------
+
+if (role !== "admin") {
+
+    const analyticsLink =
+        document.getElementById(
+            "analyticsLink"
+        );
+
+    if (analyticsLink) {
+
+        analyticsLink.style.display =
+            "none";
+
+    }
+
+}
+
+// -----------------------------
+// Newsletter
+// -----------------------------
+
+function subscribeNewsletter() {
+
+    const email =
+        document.getElementById(
+            "newsletterEmail"
+        ).value.trim();
+
+    if (email === "") {
+
+        alert(
+            "Please enter your email."
+        );
+
+        return;
+
+    }
+
+    alert(
+        "🎉 Thank you for subscribing to GadgetWorld."
+    );
+
+    document.getElementById(
+        "newsletterEmail"
+    ).value = "";
+
+}
+
+// -----------------------------
+// Variables
+// -----------------------------
+
+let allOrders = [];
+
+let deliveredOrders = 0;
+
+let pendingOrders = 0;
+
+// -----------------------------
+// Load Orders
+// -----------------------------
+
+async function loadOrders() {
+
+    try {
+
+        allOrders =
+            await apiRequest(
+                `/orders/?user_id=${userId}`
+            );
+
+        renderOrders(
+            allOrders
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "orders"
+        ).innerHTML = `
+
+        <div class="card">
+
+            <h2>
+
+                ❌ Unable To Load Orders
+
+            </h2>
+
+        </div>
+
+        `;
+
+    }
+
+}
+
+// -----------------------------
+// Render Orders
+// -----------------------------
+
+function renderOrders(orders) {
+
+    let html = "";
+
+    let totalSpent = 0;
+
+    deliveredOrders = 0;
+
+    pendingOrders = 0;
+
+    orders.forEach(order => {
+
+        totalSpent +=
+            Number(
+                order.total_amount
+            );
+
+        const status =
+            order.status || "Pending";
+
+        if (
+            status.toLowerCase() ===
+            "delivered"
+        ) {
+
+            deliveredOrders++;
+
+        }
+
+        else {
+
+            pendingOrders++;
+
+        }
+
+        const orderDate =
+            order.created_at
+
+            ?
+
+            new Date(
+                order.created_at
+            ).toLocaleDateString()
+
+            :
+
+            "Today";
+
+        let badge = "status-pending";
+
+        if (
+            status.toLowerCase() ===
+            "delivered"
+        ) {
+
+            badge =
+                "status-delivered";
+
+        }
+
+        if (
+            status.toLowerCase() ===
+            "cancelled"
+        ) {
+
+            badge =
+                "status-cancelled";
+
+        }
+
+        html += `
+
+<div class="product-card">
+
+<span class="${badge}">
+
+${status}
+
+</span>
+
+<br><br>
+
+<h3>
+
+Order #${order.id}
+
+</h3>
+
+<p>
+
+📅 ${orderDate}
+
+</p>
+
+<p>
+
+💰 ₹${Number(
+            order.total_amount
+        ).toLocaleString()}
+
+</p>
+
+<p>
+
+🚚 Estimated Delivery :
+3-5 Days
+
+</p>
+
+<div
+class="btn-group"
+>
+
+<button
+
+class="primary-btn"
+
+onclick="trackOrder(${order.id})"
+
+>
+
+Track
+
+</button>
+
+<button
+
+class="buy-btn"
+
+onclick="buyAgain()"
+
+>
+
+Buy Again
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+    if (
+        orders.length === 0
+    ) {
+
+        html = `
+
+<div class="card">
+
+<h2>
+
+📦 No Orders Found
+
+</h2>
+
+<br>
+
+<button
+
+class="primary-btn"
+
+onclick="
+window.location.href='Products.html'
+"
+
+>
+
+Shop Now
+
+</button>
+
+</div>
+
+`;
+
+    }
+
+    document.getElementById(
+        "orders"
+    ).innerHTML =
+        html;
+
+    document.getElementById(
+        "orderCount"
+    ).innerText =
+        orders.length;
+
+    document.getElementById(
+        "totalSpent"
+    ).innerText =
+        "₹" +
+        totalSpent.toLocaleString();
+
+    document.getElementById(
+        "deliveredCount"
+    ).innerText =
+        deliveredOrders;
+
+    document.getElementById(
+        "pendingCount"
+    ).innerText =
+        pendingOrders;
+
+}
+// ============================================
+// SEARCH + FILTER
+// ============================================
+
+function filterOrders() {
+
+    const keyword =
+        document.getElementById(
+            "searchOrder"
+        )
+        .value
+        .trim()
+        .toLowerCase();
+
+    const status =
+        document.getElementById(
+            "statusFilter"
+        )
+        .value
+        .toLowerCase();
+
+    const filtered =
+        allOrders.filter(order => {
+
+            const orderId =
+                String(order.id);
+
+            const orderStatus =
+                (order.status || "")
+                .toLowerCase();
+
+            const matchId =
+                orderId.includes(keyword);
+
+            const matchStatus =
+
+                status === ""
+
+                ||
+
+                orderStatus === status;
+
+            return (
+                matchId &&
+                matchStatus
+            );
+
+        });
+
+    renderOrders(filtered);
+
+}
+
+// ============================================
+// TRACK ORDER
+// ============================================
+
+function trackOrder(id) {
+
+    alert(
+
+`📦 Order #${id}
+
+Status : Processing
+
+Current Location :
+Nearest Distribution Center
+
+Estimated Delivery :
+3-5 Working Days`
+
+    );
+
+}
+
+// ============================================
+// DOWNLOAD INVOICE
+// ============================================
+
+function downloadInvoice(id) {
+
+    alert(
+
+        "Invoice download will be available soon.\n\nOrder #" + id
+
+    );
+
+}
+
+// ============================================
+// CANCEL ORDER
+// ============================================
+
+function cancelOrder(id) {
+
+    const confirmCancel =
+
+        confirm(
+
+            "Cancel Order #" + id + " ?"
+
+        );
+
+    if (!confirmCancel) {
+
+        return;
+
+    }
+
+    alert(
+
+        "Order Cancelled Successfully."
+
+    );
+
+}
+
+// ============================================
+// BUY AGAIN
+// ============================================
+
+function buyAgain() {
+
+    window.location.href =
+
+        "Products.html";
+
+}
+
+// ============================================
+// AUTO SEARCH
+// ============================================
+
+const searchInput =
+    document.getElementById(
+        "searchOrder"
+    );
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+
+        "keyup",
+
+        filterOrders
+
+    );
+
+}
+
+const statusFilter =
+    document.getElementById(
+        "statusFilter"
+    );
+
+if (statusFilter) {
+
+    statusFilter.addEventListener(
+
+        "change",
+
+        filterOrders
+
+    );
+
+}
+
+// ============================================
+// AUTO LOAD
+// ============================================
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    function () {
+
+        loadOrders();
+
+    }
+
+);
+
+</script>
+
+</body>
+
+</html>

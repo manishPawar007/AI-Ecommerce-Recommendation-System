@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        GadgetWorld | Smart Shopping Powered By AI
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+</head>
+
+<body>
+
+<!-- ===========================
+        NAVBAR
+============================ -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <span style="font-size:34px;">
+            🛍
+        </span>
+
+        <div>
+
+            <h2>
+                GadgetWorld
+            </h2>
+
+            <small>
+                Smart Shopping Powered by AI
+            </small>
+
+        </div>
+
+    </div>
+
+    <div class="nav-links">
+
+        <a href="Home.html">
+            Home
+        </a>
+
+        <a href="Products.html">
+            Products
+        </a>
+
+        <a href="Cart.html">
+            Cart
+        </a>
+
+        <a href="Wishlist.html">
+            Wishlist
+        </a>
+
+        <a href="Orders.html">
+            Orders
+        </a>
+
+        <a href="Profile.html">
+            Profile
+        </a>
+
+        <a
+            id="analyticsLink"
+            href="Analytics.html"
+        >
+            Analytics
+        </a>
+
+        <button
+            class="primary-btn"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</nav>
+
+<div class="container">
+
+<!-- ===========================
+        HERO
+============================ -->
+
+<div class="hero">
+
+    <div class="hero-content">
+
+        <span class="badge">
+
+            🚀 India's Smartest AI Shopping Platform
+
+        </span>
+
+        <br><br>
+
+        <h1>
+
+            Welcome to
+
+            <span
+                style="
+                color:#FFD54F;
+                "
+            >
+                GadgetWorld
+            </span>
+
+        </h1>
+
+        <br>
+
+        <h2
+            id="username"
+        >
+
+            Hello User 👋
+
+        </h2>
+
+        <br>
+
+        <p>
+
+            Discover premium mobiles,
+            laptops, smart watches,
+            headphones and accessories
+            with intelligent AI recommendations,
+            exclusive discounts and lightning-fast delivery.
+
+        </p>
+
+        <br>
+
+        <div
+            class="btn-group"
+        >
+
+            <button
+                class="buy-btn"
+                onclick="
+                    localStorage.removeItem('category');
+                    window.location.href='Products.html';
+                "
+            >
+
+                Shop Now
+
+            </button>
+
+            <button
+                class="primary-btn"
+                onclick="
+                    window.location.href='Orders.html';
+                "
+            >
+
+                My Orders
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+      SEARCH SECTION
+============================ -->
+
+<div class="card">
+
+    <h2>
+
+        🔍 Search Your Favourite Gadget
+
+    </h2>
+
+    <br>
+
+    <div
+        class="search-box"
+    >
+
+        <input
+
+            id="search"
+
+            placeholder="
+            Search Mobiles,
+            Laptops,
+            Smart Watches,
+            Headphones...
+            "
+
+        >
+
+        <button
+            class="primary-btn"
+            onclick="goToProducts()"
+        >
+
+            Search
+
+        </button>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+      CATEGORIES
+============================ -->
+
+<h2 class="section-title">
+
+    🛒 Shop By Category
+
+</h2>
+
+<div class="stats-grid">
+
+    <div
+
+        class="category-card"
+
+        onclick="openCategory('Mobiles')"
+
+    >
+
+        <h2>📱</h2>
+
+        <h3>Mobiles</h3>
+
+        <p>
+
+            Apple, Samsung,
+            Google, OnePlus
+
+        </p>
+
+    </div>
+
+    <div
+
+        class="category-card"
+
+        onclick="openCategory('Laptops')"
+
+    >
+
+        <h2>💻</h2>
+
+        <h3>Laptops</h3>
+
+        <p>
+
+            Apple, Dell,
+            HP, Lenovo,
+            ASUS
+
+        </p>
+
+    </div>
+
+    <div
+
+        class="category-card"
+
+        onclick="openCategory('Headphones')"
+
+    >
+
+        <h2>🎧</h2>
+
+        <h3>Headphones</h3>
+
+        <p>
+
+            Sony, JBL,
+            Boat,
+            Noise
+
+        </p>
+
+    </div>
+
+    <div
+
+        class="category-card"
+
+        onclick="openCategory('Smart Watches')"
+
+    >
+
+        <h2>⌚</h2>
+
+        <h3>Smart Watches</h3>
+
+        <p>
+
+            Apple,
+            Samsung,
+            Noise,
+            Fire-Boltt
+
+        </p>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+      FLASH SALE
+============================ -->
+
+<div class="hero">
+
+    <span class="badge">
+
+        🔥 LIMITED TIME OFFER
+
+    </span>
+
+    <br><br>
+
+    <h1>
+
+        Mega Gadget Sale
+
+    </h1>
+
+    <br>
+
+    <p>
+
+        Save up to
+
+        <b>
+
+            70% OFF
+
+        </b>
+
+        on premium gadgets,
+        smartphones,
+        laptops and accessories.
+
+    </p>
+
+    <br>
+
+    <button
+
+        class="buy-btn"
+
+        onclick="
+            localStorage.removeItem('category');
+            window.location.href='Products.html';
+        "
+
+    >
+
+        Explore Deals
+
+    </button>
+
+</div>
+
+<br>
+<!-- ===========================
+      QUICK ACTIONS
+============================ -->
+
+<h2 class="section-title">
+
+    ⚡ Quick Access
+
+</h2>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h2>🛍</h2>
+
+        <h3>Browse Products</h3>
+
+        <p>
+
+            Explore our latest gadgets.
+
+        </p>
+
+        <br>
+
+        <button
+            class="primary-btn"
+            onclick="
+                localStorage.removeItem('category');
+                window.location.href='Products.html';
+            "
+        >
+
+            Explore
+
+        </button>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>❤️</h2>
+
+        <h3>Wishlist</h3>
+
+        <p>
+
+            View your favourite products.
+
+        </p>
+
+        <br>
+
+        <button
+            class="primary-btn"
+            onclick="
+                window.location.href='Wishlist.html';
+            "
+        >
+
+            Open
+
+        </button>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>🛒</h2>
+
+        <h3>Shopping Cart</h3>
+
+        <p>
+
+            Ready to checkout?
+
+        </p>
+
+        <br>
+
+        <button
+            class="primary-btn"
+            onclick="
+                window.location.href='Cart.html';
+            "
+        >
+
+            Cart
+
+        </button>
+
+    </div>
+
+    <div
+        class="stat-card"
+        id="analyticsCard"
+    >
+
+        <h2>📊</h2>
+
+        <h3>Analytics</h3>
+
+        <p>
+
+            Admin Dashboard
+
+        </p>
+
+        <br>
+
+        <button
+            class="primary-btn"
+            onclick="
+                window.location.href='Analytics.html';
+            "
+        >
+
+            Dashboard
+
+        </button>
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+      FEATURED PRODUCTS
+============================ -->
+
+<div class="card">
+
+    <div
+        style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        flex-wrap:wrap;
+        gap:20px;
+        "
+    >
+
+        <div>
+
+            <h2>
+
+                ⭐ Featured Products
+
+            </h2>
+
+            <p>
+
+                Handpicked premium gadgets just for you.
+
+            </p>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="
+                localStorage.removeItem('category');
+                window.location.href='Products.html';
+            "
+        >
+
+            View All
+
+        </button>
+
+    </div>
+
+    <br>
+
+    <div
+        id="featuredProducts"
+        class="grid product-grid"
+    >
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+      AI RECOMMENDATIONS
+============================ -->
+
+<div class="card">
+
+    <div
+        style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        flex-wrap:wrap;
+        gap:20px;
+        "
+    >
+
+        <div>
+
+            <h2>
+
+                🤖 AI Recommended For You
+
+            </h2>
+
+            <p>
+
+                Personalized recommendations powered by Machine Learning.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div
+        id="recommendations"
+        class="grid product-grid"
+    >
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+      TRENDING PRODUCTS
+============================ -->
+
+<div class="card">
+
+    <div
+        style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        flex-wrap:wrap;
+        "
+    >
+
+        <div>
+
+            <h2>
+
+                🔥 Trending Now
+
+            </h2>
+
+            <p>
+
+                Most popular products this week.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div
+        id="trendingProducts"
+        class="grid product-grid"
+    >
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+      NEW ARRIVALS
+============================ -->
+
+<div class="card">
+
+    <div
+        style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        flex-wrap:wrap;
+        "
+    >
+
+        <div>
+
+            <h2>
+
+                🆕 New Arrivals
+
+            </h2>
+
+            <p>
+
+                Freshly launched gadgets.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div
+        id="newProducts"
+        class="grid product-grid"
+    >
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+      BEST SELLERS
+============================ -->
+
+<div class="card">
+
+    <div
+        style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        flex-wrap:wrap;
+        "
+    >
+
+        <div>
+
+            <h2>
+
+                💎 Best Sellers
+
+            </h2>
+
+            <p>
+
+                Customers' favourite products.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <div
+        id="bestSellers"
+        class="grid product-grid"
+    >
+
+    </div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+      WHY GADGETWORLD
+============================ -->
+
+<h2 class="section-title">
+
+    ⭐ Why Shop With GadgetWorld?
+
+</h2>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h2>🚚</h2>
+
+        <h3>Free Delivery</h3>
+
+        <p>
+
+            On eligible orders across India.
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>🔒</h2>
+
+        <h3>Secure Payment</h3>
+
+        <p>
+
+            100% encrypted payment gateway.
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>🤖</h2>
+
+        <h3>AI Recommendations</h3>
+
+        <p>
+
+            Smart product suggestions.
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>⭐</h2>
+
+        <h3>Trusted Brands</h3>
+
+        <p>
+
+            Apple, Samsung, Sony, Dell and more.
+
+        </p>
+
+    </div>
+
+</div>
+
+<br>
+<!-- ===========================
+      CUSTOMER REVIEWS
+============================ -->
+
+<h2 class="section-title">
+
+    💬 What Our Customers Say
+
+</h2>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h2>⭐⭐⭐⭐⭐</h2>
+
+        <p>
+
+            "Excellent product quality and super fast delivery.
+            The AI recommendations are surprisingly accurate."
+
+        </p>
+
+        <br>
+
+        <h3>
+
+            — Rahul Sharma
+
+        </h3>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>⭐⭐⭐⭐⭐</h2>
+
+        <p>
+
+            "Beautiful website with genuine products.
+            Shopping experience is smooth."
+
+        </p>
+
+        <br>
+
+        <h3>
+
+            — Priya Patel
+
+        </h3>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>⭐⭐⭐⭐⭐</h2>
+
+        <p>
+
+            "Found my dream gaming laptop at the best price.
+            Highly recommended."
+
+        </p>
+
+        <br>
+
+        <h3>
+
+            — Aman Verma
+
+        </h3>
+
+    </div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+      TOP BRANDS
+============================ -->
+
+<h2 class="section-title">
+
+    🏆 Top Brands
+
+</h2>
+
+<div class="stats-grid">
+
+    <div class="category-card">
+
+        <h2>🍎</h2>
+
+        <h3>Apple</h3>
+
+    </div>
+
+    <div class="category-card">
+
+        <h2>📱</h2>
+
+        <h3>Samsung</h3>
+
+    </div>
+
+    <div class="category-card">
+
+        <h2>💻</h2>
+
+        <h3>Dell</h3>
+
+    </div>
+
+    <div class="category-card">
+
+        <h2>🎧</h2>
+
+        <h3>Sony</h3>
+
+    </div>
+
+    <div class="category-card">
+
+        <h2>⌚</h2>
+
+        <h3>Noise</h3>
+
+    </div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+      NEWSLETTER
+============================ -->
+
+<div class="hero">
+
+    <h1>
+
+        📧 Stay Updated
+
+    </h1>
+
+    <br>
+
+    <p>
+
+        Subscribe to receive exclusive offers,
+        new launches and exciting discounts.
+
+    </p>
+
+    <br>
+
+    <div class="search-box">
+
+        <input
+
+            type="email"
+
+            id="newsletterEmail"
+
+            placeholder="Enter your Email Address"
+
+        >
+
+        <button
+
+            class="buy-btn"
+
+            onclick="subscribeNewsletter()"
+
+        >
+
+            Subscribe
+
+        </button>
+
+    </div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+      MOBILE APP
+============================ -->
+
+<div class="card">
+
+    <div
+        style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        flex-wrap:wrap;
+        gap:30px;
+        "
+    >
+
+        <div>
+
+            <h2>
+
+                📱 Download GadgetWorld App
+
+            </h2>
+
+            <br>
+
+            <p>
+
+                Shop faster, receive instant notifications,
+                manage orders and enjoy AI-powered shopping
+                from anywhere.
+
+            </p>
+
+            <br>
+
+            <button
+                class="primary-btn"
+            >
+
+                📲 Coming Soon
+
+            </button>
+
+        </div>
+
+        <div
+            style="
+            font-size:120px;
+            "
+        >
+
+            📱
+
+        </div>
+
+    </div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+      WEBSITE FEATURES
+============================ -->
+
+<h2 class="section-title">
+
+    🚀 Why Millions Trust GadgetWorld
+
+</h2>
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h2>10K+</h2>
+
+        <p>
+
+            Products Available
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>50K+</h2>
+
+        <p>
+
+            Happy Customers
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>99%</h2>
+
+        <p>
+
+            Customer Satisfaction
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>24×7</h2>
+
+        <p>
+
+            Customer Support
+
+        </p>
+
+    </div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+      FOOTER
+============================ -->
+
+<footer class="footer">
+
+    <div class="stats-grid">
+
+        <div>
+
+            <h2>
+
+                🛍 GadgetWorld
+
+            </h2>
+
+            <br>
+
+            <p>
+
+                Smart Shopping Powered by AI
+
+            </p>
+
+            <p>
+
+                Premium gadgets at the best prices.
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3>
+
+                Quick Links
+
+            </h3>
+
+            <br>
+
+            <p>
+
+                Home
+
+            </p>
+
+            <p>
+
+                Products
+
+            </p>
+
+            <p>
+
+                Cart
+
+            </p>
+
+            <p>
+
+                Orders
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3>
+
+                Customer Support
+
+            </h3>
+
+            <br>
+
+            <p>
+
+                Help Center
+
+            </p>
+
+            <p>
+
+                Returns
+
+            </p>
+
+            <p>
+
+                Shipping
+
+            </p>
+
+            <p>
+
+                Privacy Policy
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <h3>
+
+                Contact
+
+            </h3>
+
+            <br>
+
+            <p>
+
+                📧 support@gadgetworld.com
+
+            </p>
+
+            <p>
+
+                📞 +91 9876543210
+
+            </p>
+
+            <p>
+
+                🌍 India
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <br><br>
+
+    <hr>
+
+    <br>
+
+    <p>
+
+        © 2026 GadgetWorld. All Rights Reserved.
+
+    </p>
+
+    <p>
+
+        Built with ❤️ using FastAPI, PostgreSQL & AI Recommendation System.
+
+    </p>
+
+</footer>
+
+<script src="../js/api.js"></script>
+
+<script>
+    // =======================================
+// LOGIN CHECK
+// =======================================
+
+if (!localStorage.getItem("token")) {
+
+    window.location.href = "Login.html";
+
+}
+
+// =======================================
+// USER DETAILS
+// =======================================
+
+const role = localStorage.getItem("role");
+const user = localStorage.getItem("user");
+const userId = localStorage.getItem("user_id");
+
+// =======================================
+// SHOW USERNAME
+// =======================================
+
+const username = document.getElementById("username");
+
+if (username && user) {
+
+    username.innerHTML = `👋 Welcome Back, <b>${user}</b>`;
+
+}
+
+// =======================================
+// ADMIN ACCESS
+// =======================================
+
+if (role !== "admin") {
+
+    const analyticsLink =
+        document.getElementById(
+            "analyticsLink"
+        );
+
+    if (analyticsLink) {
+
+        analyticsLink.style.display = "none";
+
+    }
+
+    const analyticsCard =
+        document.getElementById(
+            "analyticsCard"
+        );
+
+    if (analyticsCard) {
+
+        analyticsCard.style.display = "none";
+
+    }
+
+}
+
+// =======================================
+// SEARCH PRODUCTS
+// =======================================
+
+function goToProducts() {
+
+    const searchText =
+        document
+        .getElementById("search")
+        .value
+        .trim();
+
+    localStorage.setItem(
+        "search",
+        searchText
+    );
+
+    localStorage.removeItem(
+        "category"
+    );
+
+    window.location.href =
+        "Products.html";
+
+}
+
+// =======================================
+// CATEGORY FILTER
+// =======================================
+
+function openCategory(category) {
+
+    localStorage.setItem(
+        "category",
+        category
+    );
+
+    localStorage.removeItem(
+        "search"
+    );
+
+    window.location.href =
+        "Products.html";
+
+}
+
+// =======================================
+// LOGOUT
+// =======================================
+
+function logout() {
+
+    if (!confirm(
+        "Do you really want to logout?"
+    )) {
+
+        return;
+
+    }
+
+    localStorage.clear();
+
+    window.location.href =
+        "Login.html";
+
+}
+
+// =======================================
+// NEWSLETTER
+// =======================================
+
+function subscribeNewsletter() {
+
+    const email =
+        document.getElementById(
+            "newsletterEmail"
+        ).value.trim();
+
+    if (email === "") {
+
+        alert(
+            "Please enter email."
+        );
+
+        return;
+
+    }
+
+    alert(
+        "🎉 Thank you for subscribing to GadgetWorld!"
+    );
+
+    document.getElementById(
+        "newsletterEmail"
+    ).value = "";
+
+}
+
+// =======================================
+// PRODUCT CARD
+// =======================================
+
+function createProductCard(product) {
+
+    const image =
+        product.image_url || "";
+
+    const rating =
+        product.rating || "4.8";
+
+    const price =
+        Number(
+            product.price || 0
+        );
+
+    return `
+
+<div class="card product-card">
+
+    <img
+
+        src="${image}"
+
+        class="product-image"
+
+        alt="${product.description}"
+
+    >
+
+    <span class="badge">
+
+        ⭐ ${rating}
+
+    </span>
+
+    <h3>
+
+        ${product.description}
+
+    </h3>
+
+    <p class="price">
+
+        ₹${price.toLocaleString()}
+
+    </p>
+
+    <div class="btn-group">
+
+        <button
+
+            class="wishlist-btn"
+
+            onclick="addWishlist(${product.id})"
+
+        >
+
+            ❤️
+
+        </button>
+
+        <button
+
+            class="primary-btn"
+
+            onclick="addToCart(${product.id})"
+
+        >
+
+            Cart
+
+        </button>
+
+        <button
+
+            class="buy-btn"
+
+            onclick="buyNow(${product.id})"
+
+        >
+
+            Buy
+
+        </button>
+
+    </div>
+
+</div>
+
+`;
+
+}
+
+// =======================================
+// LOAD PRODUCTS
+// =======================================
+
+async function loadRecommendations() {
+
+    try {
+
+        const products =
+            await apiRequest(
+                "/products/"
+            );
+
+        let recommendationHTML = "";
+
+        let featuredHTML = "";
+
+        let trendingHTML = "";
+
+        let newHTML = "";
+
+        let bestHTML = "";
+
+        products
+            .slice(0,8)
+            .forEach(product=>{
+
+                recommendationHTML +=
+                    createProductCard(product);
+
+            });
+
+        products
+            .slice(8,16)
+            .forEach(product=>{
+
+                featuredHTML +=
+                    createProductCard(product);
+
+            });
+
+        products
+            .slice(16,24)
+            .forEach(product=>{
+
+                trendingHTML +=
+                    createProductCard(product);
+
+            });
+
+        products
+            .slice(24,32)
+            .forEach(product=>{
+
+                newHTML +=
+                    createProductCard(product);
+
+            });
+
+        products
+            .slice(32,40)
+            .forEach(product=>{
+
+                bestHTML +=
+                    createProductCard(product);
+
+            });
+
+        const recommendationDiv =
+            document.getElementById(
+                "recommendations"
+            );
+
+        if(recommendationDiv){
+
+            recommendationDiv.innerHTML =
+                recommendationHTML;
+
+        }
+
+        const featuredDiv =
+            document.getElementById(
+                "featuredProducts"
+            );
+
+        if(featuredDiv){
+
+            featuredDiv.innerHTML =
+                featuredHTML;
+
+        }
+                const trendingDiv =
+            document.getElementById(
+                "trendingProducts"
+            );
+
+        if (trendingDiv) {
+
+            trendingDiv.innerHTML =
+                trendingHTML;
+
+        }
+
+        const newDiv =
+            document.getElementById(
+                "newProducts"
+            );
+
+        if (newDiv) {
+
+            newDiv.innerHTML =
+                newHTML;
+
+        }
+
+        const bestDiv =
+            document.getElementById(
+                "bestSellers"
+            );
+
+        if (bestDiv) {
+
+            bestDiv.innerHTML =
+                bestHTML;
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        const recommendationDiv =
+            document.getElementById(
+                "recommendations"
+            );
+
+        if (recommendationDiv) {
+
+            recommendationDiv.innerHTML = `
+
+            <div class="card">
+
+                <h2>
+
+                    Unable to load products.
+
+                </h2>
+
+            </div>
+
+            `;
+
+        }
+
+    }
+
+}
+
+// =======================================
+// ADD TO CART
+// =======================================
+
+async function addToCart(id) {
+
+    try {
+
+        if (!userId) {
+
+            alert(
+                "Please login first."
+            );
+
+            window.location.href =
+                "Login.html";
+
+            return;
+
+        }
+
+        const response =
+            await apiRequest(
+
+                `/cart/?user_id=${userId}&product_id=${id}&quantity=1`,
+
+                "POST"
+
+            );
+
+        alert(
+
+            response.message ||
+
+            "Product Added Successfully."
+
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+
+            error.message ||
+
+            "Unable To Add Product."
+
+        );
+
+    }
+
+}
+
+// =======================================
+// BUY NOW
+// =======================================
+
+function buyNow(id) {
+
+    localStorage.setItem(
+
+        "buy_product",
+
+        id
+
+    );
+
+    window.location.href =
+
+        "Checkout.html";
+
+}
+
+// =======================================
+// ADD TO WISHLIST
+// =======================================
+
+async function addWishlist(id) {
+
+    try {
+
+        const products =
+            await apiRequest("/products/");
+
+        const product =
+            products.find(
+                p => p.id === id
+            );
+
+        if (!product) {
+
+            alert(
+                "Product Not Found"
+            );
+
+            return;
+
+        }
+
+        let wishlist =
+            JSON.parse(
+
+                localStorage.getItem(
+                    "wishlist"
+                )
+
+            ) || [];
+
+        const exists =
+            wishlist.find(
+
+                item => item.id === id
+
+            );
+
+        if (exists) {
+
+            alert(
+                "Already In Wishlist ❤️"
+            );
+
+            return;
+
+        }
+
+        wishlist.push(product);
+
+        localStorage.setItem(
+
+            "wishlist",
+
+            JSON.stringify(wishlist)
+
+        );
+
+        alert(
+            "❤️ Added To Wishlist"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Wishlist Error"
+        );
+
+    }
+
+}
+
+// =======================================
+// AUTO SEARCH
+// =======================================
+
+const searchInput =
+    document.getElementById(
+        "search"
+    );
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+
+        "keypress",
+
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                goToProducts();
+
+            }
+
+        }
+
+    );
+
+}
+
+// =======================================
+// INITIAL LOAD
+// =======================================
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    function () {
+
+        loadRecommendations();
+
+    }
+
+);
+
+</script>
+
+</body>
+
+</html>

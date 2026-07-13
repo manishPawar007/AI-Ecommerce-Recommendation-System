@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GadgetWorld</title>
+</head>
+
+<body>
+
+<script>
+
+const token = sessionStorage.getItem("token");
+
+if(token){
+
+    window.location.href="pages/Home.html";
+
+}
+else{
+
+    window.location.href="pages/Login.html";
+
+}
+
+</script>
+
+</body>
+</html>

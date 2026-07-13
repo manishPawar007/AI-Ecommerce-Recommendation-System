@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+
+GadgetWorld | Admin Analytics
+
+</title>
+
+<link
+rel="stylesheet"
+href="../css/style.css"
+>
+
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com"
+>
+
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin
+>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet"
+>
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<!-- ===========================
+        ADMIN NAVBAR
+=========================== -->
+
+<nav class="navbar">
+
+<div class="logo">
+
+<span style="font-size:34px;">
+
+🛍
+
+</span>
+
+<div>
+
+<h2>
+
+GadgetWorld Admin
+
+</h2>
+
+<small>
+
+Business Intelligence Dashboard
+
+</small>
+
+</div>
+
+</div>
+
+<div class="nav-links">
+
+<a href="Home.html">
+
+Home
+
+</a>
+
+<a href="Products.html">
+
+Products
+
+</a>
+
+<a href="Orders.html">
+
+Orders
+
+</a>
+
+<a href="Analytics.html"
+class="active">
+
+Analytics
+
+</a>
+
+<a href="Profile.html">
+
+Profile
+
+</a>
+
+</div>
+
+</nav>
+
+<div class="container">
+
+<!-- ===========================
+        HERO
+=========================== -->
+
+<div class="hero">
+
+<span class="badge">
+
+📊 LIVE ANALYTICS
+
+</span>
+
+<br><br>
+
+<h1>
+
+Business Intelligence
+
+<span style="color:#FFD54F;">
+
+Dashboard
+
+</span>
+
+</h1>
+
+<br>
+
+<p>
+
+Monitor revenue,
+customers,
+AI recommendations,
+inventory,
+orders,
+and overall business performance
+in real time.
+
+</p>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        KPI CARDS
+=========================== -->
+
+<div class="stats-grid">
+
+<div class="stat-card">
+
+<h2 id="totalRevenue">
+
+₹0
+
+</h2>
+
+<p>
+
+💰 Revenue
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2 id="totalOrders">
+
+0
+
+</h2>
+
+<p>
+
+🛒 Orders
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2 id="totalProducts">
+
+0
+
+</h2>
+
+<p>
+
+📦 Products
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2 id="totalUsers">
+
+0
+
+</h2>
+
+<p>
+
+👥 Customers
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+98%
+
+</h2>
+
+<p>
+
+😊 Satisfaction
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+96%
+
+</h2>
+
+<p>
+
+🤖 AI Accuracy
+
+</p>
+
+</div>
+
+</div>
+
+<br>
+
+<!-- ===========================
+        TODAY SUMMARY
+=========================== -->
+
+<div class="stats-grid">
+
+<div class="stat-card">
+
+<h3>
+
+Today's Revenue
+
+</h3>
+
+<h2 id="todaySales">
+
+₹0
+
+</h2>
+
+</div>
+
+<div class="stat-card">
+
+<h3>
+
+Weekly Sales
+
+</h3>
+
+<h2 id="weeklySales">
+
+₹0
+
+</h2>
+
+</div>
+
+<div class="stat-card">
+
+<h3>
+
+Monthly Sales
+
+</h3>
+
+<h2 id="monthlySales">
+
+₹0
+
+</h2>
+
+</div>
+
+<div class="stat-card">
+
+<h3>
+
+Best Seller
+
+</h3>
+
+<h2 id="bestProduct">
+
+Loading...
+
+</h2>
+
+</div>
+
+</div>
+
+<br> 
+<!-- ===========================
+        MAIN CHARTS
+=========================== -->
+
+<div class="dashboard-grid">
+
+    <!-- Revenue Chart -->
+
+    <div class="card chart-card">
+
+        <div class="card-header">
+
+            <h2>
+                💰 Revenue Analytics
+            </h2>
+
+            <span class="badge success">
+                Live
+            </span>
+
+        </div>
+
+        <canvas
+            id="revenueChart"
+            height="120"
+        >
+        </canvas>
+
+    </div>
+
+    <!-- Orders Chart -->
+
+    <div class="card chart-card">
+
+        <div class="card-header">
+
+            <h2>
+                📦 Orders vs Products
+            </h2>
+
+            <span class="badge">
+                Today
+            </span>
+
+        </div>
+
+        <canvas
+            id="comparisonChart"
+            height="120"
+        >
+        </canvas>
+
+    </div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        CATEGORY CHART
+=========================== -->
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h2>
+
+            🥧 Category Wise Sales
+
+        </h2>
+
+    </div>
+
+    <br>
+
+    <canvas
+
+        id="categoryChart"
+
+        height="90"
+
+    >
+
+    </canvas>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        MONTHLY SALES
+=========================== -->
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h2>
+
+            📈 Monthly Revenue Trend
+
+        </h2>
+
+    </div>
+
+    <br>
+
+    <canvas
+
+        id="monthlySalesChart"
+
+        height="100"
+
+    >
+
+    </canvas>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        AI DASHBOARD
+=========================== -->
+
+<div class="dashboard-grid">
+
+<div class="card">
+
+<h2>
+
+🤖 AI Business Insights
+
+</h2>
+
+<br>
+
+<ul class="analytics-list">
+
+<li>
+
+🏆 Best Selling Product :
+
+<b id="bestSellingProduct">
+
+Loading...
+
+</b>
+
+</li>
+
+<br>
+
+<li>
+
+💰 Highest Revenue Category :
+
+<b id="highestCategory">
+
+Loading...
+
+</b>
+
+</li>
+
+<br>
+
+<li>
+
+📈 Fastest Growing Category :
+
+<b id="fastCategory">
+
+Loading...
+
+</b>
+
+</li>
+
+<br>
+
+<li>
+
+🛍 Average Order Value :
+
+<b id="avgOrder">
+
+₹0
+
+</b>
+
+</li>
+
+<br>
+
+<li>
+
+👥 Returning Customers :
+
+<b>
+
+78%
+
+</b>
+
+</li>
+
+<br>
+
+<li>
+
+⭐ Recommendation Accuracy :
+
+<b>
+
+96%
+
+</b>
+
+</li>
+
+<br>
+
+<li>
+
+📦 Predicted Sales Tomorrow :
+
+<b>
+
+₹1,24,000
+
+</b>
+
+</li>
+
+</ul>
+
+</div>
+
+<!-- INVENTORY -->
+
+<div class="card">
+
+<h2>
+
+📦 Inventory Analytics
+
+</h2>
+
+<br>
+
+<p>
+
+Available Stock
+
+</p>
+
+<progress
+
+id="stockProgress"
+
+value="82"
+
+max="100"
+
+>
+
+</progress>
+
+<br><br>
+
+<p>
+
+Low Stock
+
+</p>
+
+<progress
+
+id="lowStockProgress"
+
+value="14"
+
+max="100"
+
+>
+
+</progress>
+
+<br><br>
+
+<p>
+
+Out Of Stock
+
+</p>
+
+<progress
+
+id="outStockProgress"
+
+value="4"
+
+max="100"
+
+>
+
+</progress>
+
+<br><br>
+
+<h3>
+
+Warehouse Health
+
+</h3>
+
+<br>
+
+<div class="stats-grid">
+
+<div class="stat-card">
+
+<h2>
+
+98%
+
+</h2>
+
+<p>
+
+Inventory Accuracy
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+99%
+
+</h2>
+
+<p>
+
+Delivery Success
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        PERFORMANCE
+=========================== -->
+
+<div class="stats-grid">
+
+<div class="stat-card">
+
+<h2>
+
+🚚
+
+</h2>
+
+<h1>
+
+98%
+
+</h1>
+
+<p>
+
+Delivery Rate
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+😊
+
+</h2>
+
+<h1>
+
+4.9★
+
+</h1>
+
+<p>
+
+Customer Rating
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+📈
+
+</h2>
+
+<h1>
+
+82%
+
+</h1>
+
+<p>
+
+Conversion Rate
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+🔥
+
+</h2>
+
+<h1>
+
++24%
+
+</h1>
+
+<p>
+
+Growth
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+💳
+
+</h2>
+
+<h1>
+
+91%
+
+</h1>
+
+<p>
+
+Payment Success
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+🤖
+
+</h2>
+
+<h1>
+
+95%
+
+</h1>
+
+<p>
+
+Prediction Accuracy
+
+</p>
+
+</div>
+
+</div>
+
+<br><br>
+<!-- ===========================
+        TOP PRODUCTS & LOW STOCK
+=========================== -->
+
+<div class="dashboard-grid">
+
+<div class="card">
+
+<div class="card-header">
+
+<h2>
+
+🏆 Top Selling Products
+
+</h2>
+
+</div>
+
+<table class="analytics-table">
+
+<thead>
+
+<tr>
+
+<th>Rank</th>
+<th>Product</th>
+<th>Category</th>
+<th>Sold</th>
+
+</tr>
+
+</thead>
+
+<tbody id="topProductsTable">
+
+<tr>
+
+<td colspan="4">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<div class="card-header">
+
+<h2>
+
+⚠ Low Stock Products
+
+</h2>
+
+</div>
+
+<table class="analytics-table">
+
+<thead>
+
+<tr>
+
+<th>Product</th>
+<th>Stock</th>
+
+</tr>
+
+</thead>
+
+<tbody id="lowStockTable">
+
+<tr>
+
+<td colspan="2">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        RECENT ORDERS
+=========================== -->
+
+<div class="card">
+
+<div class="card-header">
+
+<h2>
+
+🛒 Recent Orders
+
+</h2>
+
+</div>
+
+<table class="analytics-table">
+
+<thead>
+
+<tr>
+
+<th>Order ID</th>
+<th>User</th>
+<th>Amount</th>
+<th>Status</th>
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody id="recentOrders">
+
+<tr>
+
+<td colspan="5">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        LATEST USERS
+=========================== -->
+
+<div class="card">
+
+<div class="card-header">
+
+<h2>
+
+👥 Latest Registered Users
+
+</h2>
+
+</div>
+
+<table class="analytics-table">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Email</th>
+<th>Role</th>
+
+</tr>
+
+</thead>
+
+<tbody id="latestUsers">
+
+<tr>
+
+<td colspan="4">
+
+Loading...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        SALES BY COUNTRY
+=========================== -->
+
+<div class="card">
+
+<div class="card-header">
+
+<h2>
+
+🌍 Sales By Country
+
+</h2>
+
+</div>
+
+<br>
+
+<div class="stats-grid">
+
+<div class="stat-card">
+
+<h2>
+
+🇮🇳
+
+</h2>
+
+<h3>
+
+India
+
+</h3>
+
+<p>
+
+₹12,40,000
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+🇺🇸
+
+</h2>
+
+<h3>
+
+USA
+
+</h3>
+
+<p>
+
+₹8,70,000
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+🇬🇧
+
+</h2>
+
+<h3>
+
+UK
+
+</h3>
+
+<p>
+
+₹5,10,000
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+
+🇦🇪
+
+</h2>
+
+<h3>
+
+UAE
+
+</h3>
+
+<p>
+
+₹4,30,000
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        EXPORT REPORTS
+=========================== -->
+
+<div class="card">
+
+<h2>
+
+📤 Export Business Reports
+
+</h2>
+
+<br>
+
+<div class="btn-group">
+
+<button
+
+class="primary-btn"
+
+onclick="downloadPDF()"
+
+>
+
+📄 Export PDF
+
+</button>
+
+<button
+
+class="buy-btn"
+
+onclick="downloadExcel()"
+
+>
+
+📊 Export Excel
+
+</button>
+
+<button
+
+class="wishlist-btn"
+
+onclick="downloadCSV()"
+
+>
+
+📑 Export CSV
+
+</button>
+
+</div>
+
+</div>
+
+<br><br>
+
+<!-- ===========================
+        DASHBOARD ACTIONS
+=========================== -->
+
+<div class="card">
+
+<h2>
+
+⚙ Dashboard Controls
+
+</h2>
+
+<br>
+
+<div class="btn-group">
+
+<button
+
+id="refreshBtn"
+
+class="primary-btn"
+
+onclick="loadAnalytics()"
+
+>
+
+🔄 Refresh Dashboard
+
+</button>
+
+<button
+
+class="buy-btn"
+
+onclick="window.print()"
+
+>
+
+🖨 Print Dashboard
+
+</button>
+
+<button
+
+class="wishlist-btn"
+
+onclick="location.reload()"
+
+>
+
+♻ Reload
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ===========================
+        FOOTER
+=========================== -->
+
+<footer class="footer">
+
+<div class="stats-grid">
+
+<div>
+
+<h2>
+
+🛍 GadgetWorld Admin
+
+</h2>
+
+<br>
+
+<p>
+
+AI Powered Business Intelligence
+
+</p>
+
+</div>
+
+<div>
+
+<h3>
+
+Modules
+
+</h3>
+
+<br>
+
+<p>
+
+Analytics
+
+</p>
+
+<p>
+
+Sales
+
+</p>
+
+<p>
+
+Inventory
+
+</p>
+
+<p>
+
+Reports
+
+</p>
+
+</div>
+
+<div>
+
+<h3>
+
+Technology
+
+</h3>
+
+<br>
+
+<p>
+
+FastAPI
+
+</p>
+
+<p>
+
+PostgreSQL
+
+</p>
+
+<p>
+
+Machine Learning
+
+</p>
+
+<p>
+
+Chart.js
+
+</p>
+
+</div>
+
+<div>
+
+<h3>
+
+Version
+
+</h3>
+
+<br>
+
+<p>
+
+GadgetWorld Admin v2.0
+
+</p>
+
+<p>
+
+2026 Edition
+
+</p>
+
+</div>
+
+</div>
+
+<br>
+
+<hr>
+
+<br>
+
+<p>
+
+© 2026 GadgetWorld Admin Dashboard
+
+</p>
+
+<p>
+
+Powered by AI Recommendation Engine, FastAPI & PostgreSQL
+
+</p>
+
+</footer>
+
+<script src="../js/api.js"></script>
+
+<script src="../js/analytics.js"></script>
+
+<script>
+    
+    // ==========================================
+// GADGETWORLD ANALYTICS DASHBOARD
+// ==========================================
+
+// =============================
+// ADMIN LOGIN CHECK
+// =============================
+
+const token =
+    localStorage.getItem("token");
+
+const role =
+    localStorage.getItem("role");
+
+if (!token) {
+
+    window.location.href =
+        "Login.html";
+
+}
+
+if (role !== "admin") {
+
+    alert(
+        "Access Denied!\nAdmin Login Required."
+    );
+
+    window.location.href =
+        "Home.html";
+
+}
+
+// =============================
+// GLOBAL VARIABLES
+// =============================
+
+let products = [];
+let users = [];
+let orders = [];
+let revenue = 0;
+
+// =============================
+// LOAD DASHBOARD
+// =============================
+
+async function loadAnalytics() {
+
+    try {
+
+        document.getElementById(
+            "refreshBtn"
+        ).disabled = true;
+
+        document.getElementById(
+            "refreshBtn"
+        ).innerHTML =
+        "Loading...";
+
+        // ======================
+        // FETCH DATA
+        // ======================
+
+        products =
+            await apiRequest(
+                "/products/?skip=0&limit=1000"
+            );
+
+        users =
+            await apiRequest(
+                "/users/"
+            );
+
+        orders =
+            await apiRequest(
+                "/orders/"
+            );
+
+        // ======================
+        // CALCULATE REVENUE
+        // ======================
+
+        revenue = 0;
+
+        orders.forEach(order => {
+
+            revenue += Number(
+                order.total_amount || 0
+            );
+
+        });
+
+        // ======================
+        // UPDATE KPI
+        // ======================
+
+        document.getElementById(
+            "totalProducts"
+        ).innerText =
+            products.length;
+
+        document.getElementById(
+            "totalUsers"
+        ).innerText =
+            users.length;
+
+        document.getElementById(
+            "totalOrders"
+        ).innerText =
+            orders.length;
+
+        document.getElementById(
+            "totalRevenue"
+        ).innerText =
+            "₹" +
+            revenue.toLocaleString();
+
+        document.getElementById(
+            "todaySales"
+        ).innerText =
+            "₹" +
+            Math.round(revenue * 0.08)
+            .toLocaleString();
+
+        document.getElementById(
+            "weeklySales"
+        ).innerText =
+            "₹" +
+            Math.round(revenue * 0.35)
+            .toLocaleString();
+
+        document.getElementById(
+            "monthlySales"
+        ).innerText =
+            "₹" +
+            revenue.toLocaleString();
+
+        // ======================
+        // AI INSIGHTS
+        // ======================
+
+        if (products.length > 0) {
+
+            document.getElementById(
+                "bestProduct"
+            ).innerText =
+                products[0].description;
+
+            document.getElementById(
+                "bestSellingProduct"
+            ).innerText =
+                products[0].description;
+
+            document.getElementById(
+                "highestCategory"
+            ).innerText =
+                products[0].category || "Electronics";
+
+            document.getElementById(
+                "fastCategory"
+            ).innerText =
+                products[0].category || "Electronics";
+
+        }
+
+        const avgOrder =
+
+            orders.length > 0
+
+            ? revenue / orders.length
+
+            : 0;
+
+        document.getElementById(
+            "avgOrder"
+        ).innerText =
+            "₹" +
+            avgOrder.toFixed(2);
+
+        // ======================
+        // CHARTS
+        // ======================
+
+        createRevenueChart();
+
+        createComparisonChart();
+
+        createCategoryChart();
+
+        createMonthlyChart();
+
+        // ======================
+        // TABLES
+        // ======================
+
+        loadTopProducts();
+
+        loadLowStock();
+
+        loadRecentOrders();
+
+        loadLatestUsers();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            "Unable To Load Dashboard"
+        );
+
+    }
+
+    finally{
+
+        document.getElementById(
+            "refreshBtn"
+        ).disabled = false;
+
+        document.getElementById(
+            "refreshBtn"
+        ).innerHTML =
+        "🔄 Refresh Dashboard";
+
+    }
+
+}
+// ==========================================
+// REVENUE CHART
+// ==========================================
+
+function createRevenueChart() {
+
+    new Chart(
+
+        document.getElementById("revenueChart"),
+
+        {
+
+            type: "line",
+
+            data: {
+
+                labels: [
+                    "Jan","Feb","Mar","Apr",
+                    "May","Jun","Jul","Aug",
+                    "Sep","Oct","Nov","Dec"
+                ],
+
+                datasets: [
+
+                    {
+
+                        label: "Revenue",
+
+                        data: [
+                            12000,18000,25000,
+                            30000,42000,51000,
+                            62000,70000,76000,
+                            85000,94000,revenue
+                        ],
+
+                        borderWidth: 3,
+
+                        fill: true,
+
+                        tension: 0.4
+
+                    }
+
+                ]
+
+            }
+
+        }
+
+    );
+
+}
+
+// ==========================================
+// PRODUCTS VS ORDERS
+// ==========================================
+
+function createComparisonChart() {
+
+    new Chart(
+
+        document.getElementById("comparisonChart"),
+
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+
+                    "Products",
+
+                    "Orders",
+
+                    "Users"
+
+                ],
+
+                datasets: [
+
+                    {
+
+                        label: "Statistics",
+
+                        data: [
+
+                            products.length,
+
+                            orders.length,
+
+                            users.length
+
+                        ]
+
+                    }
+
+                ]
+
+            }
+
+        }
+
+    );
+
+}
+
+// ==========================================
+// CATEGORY CHART
+// ==========================================
+
+function createCategoryChart() {
+
+    const categories = {};
+
+    products.forEach(product => {
+
+        const category =
+            product.category ||
+            "Others";
+
+        categories[category] =
+            (categories[category] || 0) + 1;
+
+    });
+
+    new Chart(
+
+        document.getElementById("categoryChart"),
+
+        {
+
+            type: "pie",
+
+            data: {
+
+                labels:
+                    Object.keys(categories),
+
+                datasets: [
+
+                    {
+
+                        data:
+                            Object.values(categories)
+
+                    }
+
+                ]
+
+            }
+
+        }
+
+    );
+
+}
+
+// ==========================================
+// MONTHLY CHART
+// ==========================================
+
+function createMonthlyChart() {
+
+    new Chart(
+
+        document.getElementById("monthlySalesChart"),
+
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+
+                    "Jan","Feb","Mar","Apr",
+                    "May","Jun","Jul","Aug",
+                    "Sep","Oct","Nov","Dec"
+
+                ],
+
+                datasets: [
+
+                    {
+
+                        label:
+                            "Monthly Sales",
+
+                        data: [
+
+                            10000,14000,18000,
+                            25000,33000,42000,
+                            48000,57000,63000,
+                            71000,84000,95000
+
+                        ]
+
+                    }
+
+                ]
+
+            }
+
+        }
+
+    );
+
+}
+
+// ==========================================
+// TOP PRODUCTS
+// ==========================================
+
+function loadTopProducts() {
+
+    let html = "";
+
+    products
+        .slice(0,5)
+        .forEach((product,index)=>{
+
+            html += `
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${product.description}</td>
+
+<td>${product.category}</td>
+
+<td>${Math.floor(Math.random()*500)+50}</td>
+
+</tr>
+
+`;
+
+        });
+
+    document.getElementById(
+        "topProductsTable"
+    ).innerHTML = html;
+
+}
+
+// ==========================================
+// LOW STOCK
+// ==========================================
+
+function loadLowStock() {
+
+    let html = "";
+
+    products
+        .filter(
+            product =>
+            Number(product.stock) < 10
+        )
+        .slice(0,5)
+        .forEach(product=>{
+
+            html += `
+
+<tr>
+
+<td>${product.description}</td>
+
+<td>${product.stock}</td>
+
+</tr>
+
+`;
+
+        });
+
+    if(html===""){
+
+        html=`
+
+<tr>
+
+<td colspan="2">
+
+No Low Stock Products
+
+</td>
+
+</tr>
+
+`;
+
+    }
+
+    document.getElementById(
+        "lowStockTable"
+    ).innerHTML = html;
+
+}
+
+// ==========================================
+// RECENT ORDERS
+// ==========================================
+
+function loadRecentOrders() {
+
+    let html = "";
+
+    orders
+        .slice(0,10)
+        .forEach(order=>{
+
+            html += `
+
+<tr>
+
+<td>${order.id}</td>
+
+<td>${order.user_id}</td>
+
+<td>₹${Number(order.total_amount).toLocaleString()}</td>
+
+<td>${order.status || "Completed"}</td>
+
+<td>${order.created_at || "-"}</td>
+
+</tr>
+
+`;
+
+        });
+
+    document.getElementById(
+        "recentOrders"
+    ).innerHTML = html;
+
+}
+
+// ==========================================
+// LATEST USERS
+// ==========================================
+
+function loadLatestUsers() {
+
+    let html = "";
+
+    users
+        .slice(0,10)
+        .forEach(user=>{
+
+            html += `
+
+<tr>
+
+<td>${user.id}</td>
+
+<td>${user.name}</td>
+
+<td>${user.email}</td>
+
+<td>${user.role || "User"}</td>
+
+</tr>
+
+`;
+
+        });
+
+    document.getElementById(
+        "latestUsers"
+    ).innerHTML = html;
+
+}
+
+// ==========================================
+// EXPORTS
+// ==========================================
+
+function downloadPDF(){
+
+    alert("PDF Export Coming Soon");
+
+}
+
+function downloadExcel(){
+
+    alert("Excel Export Coming Soon");
+
+}
+
+function downloadCSV(){
+
+    alert("CSV Export Coming Soon");
+
+}
+
+// ==========================================
+// AUTO REFRESH
+// ==========================================
+
+window.addEventListener(
+
+    "DOMContentLoaded",
+
+    function(){
+
+        loadAnalytics();
+
+    }
+
+);
+
+setInterval(
+
+    loadAnalytics,
+
+    60000
+
+);
+
+</script>
+
+</body>
+
+</html>
