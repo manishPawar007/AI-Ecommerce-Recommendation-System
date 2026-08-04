@@ -1,8 +1,13 @@
+import sys
+import os
+
+# Add backend directory to Python module search path
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import inspect, text
 
-import os
 import pandas as pd
 
 from database import engine, SessionLocal
