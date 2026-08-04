@@ -14,7 +14,7 @@ router = APIRouter(
 @router.get("/")
 def get_products(
         skip: int = 0,
-        limit: int = 20,
+        limit: int = 1000,
         db: Session = Depends(get_db)
 ):
 
@@ -27,22 +27,26 @@ def get_products(
 
 @router.get("/search")
 def search_products(
-        keyword: str,
-        db: Session = Depends(get_db)
+    q: str = "",
+    keyword: str = "",
+    db: Session = Depends(get_db)
 ):
+    query_str = q or keyword
+    if not query_str:
+        return db.query(Product).limit(20).all()
 
-    products = (
+    return (
         db.query(Product)
         .filter(
-            Product.description
-            .ilike(
-                f"%{keyword}%"
+            or_(
+                Product.product_name.ilike(f"%{query_str}%"),
+                Product.description.ilike(f"%{query_str}%"),
+                Product.category.ilike(f"%{query_str}%")
             )
         )
         .all()
     )
 
-    return products
 
 @router.get("/filter")
 def filter_products(

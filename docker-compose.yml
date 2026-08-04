@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    container_name: gadgetworld_backend
+    ports:
+      - "8001:8001"
+    environment:
+      - PORT=8001
+      - DATABASE_URL=sqlite:///./backend/sql_app.db
+    volumes:
+      - .:/app
+    restart: always

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | GadgetWorld AI</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="admin-wrapper">
+    <!-- Dynamic Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header Bar -->
+        <header class="top-header">
+            <div class="header-search">
+                <i class="bi bi-search"></i>
+                <input type="text" id="global-search" placeholder="Search orders, products, customers...">
+            </div>
+            
+            <div class="header-actions">
+                <div id="backend-status" class="backend-status-badge">
+                    <span class="status-dot"></span> Checking API...
+                </div>
+                
+                <a href="products.html" class="btn-primary-gradient">
+                    <i class="bi bi-plus-circle"></i> Add Product
+                </a>
+                
+                <div class="admin-profile-pill d-flex align-items-center gap-2 px-3 py-1.5 rounded-pill" style="background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255,255,255,0.1);">
+                    <i class="bi bi-person-circle fs-5 text-primary"></i>
+                    <span class="fw-semibold text-white">Manish Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- KPI Metric Cards Grid -->
+        <div class="dashboard-grid">
+            <div class="glass-card stat-card">
+                <div class="stat-info">
+                    <p>Total Revenue</p>
+                    <h3 id="stat-revenue">₹0.00</h3>
+                    <span class="badge-custom badge-success mt-2">
+                        <i class="bi bi-arrow-up-short"></i> +18.4% this month
+                    </span>
+                </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                    <i class="bi bi-currency-rupee"></i>
+                </div>
+            </div>
+
+            <div class="glass-card stat-card">
+                <div class="stat-info">
+                    <p>Total Orders</p>
+                    <h3 id="stat-orders">0</h3>
+                    <span class="badge-custom badge-info mt-2">
+                        <i class="bi bi-cart-check"></i> Real-time orders
+                    </span>
+                </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                    <i class="bi bi-bag-check"></i>
+                </div>
+            </div>
+
+            <div class="glass-card stat-card">
+                <div class="stat-info">
+                    <p>Active Customers</p>
+                    <h3 id="stat-customers">0</h3>
+                    <span class="badge-custom badge-warning mt-2">
+                        <i class="bi bi-people"></i> Registered Users
+                    </span>
+                </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                    <i class="bi bi-person-heart"></i>
+                </div>
+            </div>
+
+            <div class="glass-card stat-card">
+                <div class="stat-info">
+                    <p>Total Products</p>
+                    <h3 id="stat-products">0</h3>
+                    <span class="badge-custom badge-success mt-2">
+                        <i class="bi bi-check-all"></i> Active Catalog
+                    </span>
+                </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Charts & Activity Section -->
+        <div class="chart-section">
+            <!-- Revenue & Analytics Chart -->
+            <div class="glass-card">
+                <div class="chart-header">
+                    <div>
+                        <h4 class="mb-1">Revenue Performance & Sales Trend</h4>
+                        <p class="text-muted small mb-0">Monthly sales metrics connected to backend</p>
+                    </div>
+                    <select id="revenue-filter" class="form-select form-select-sm w-auto" style="background: rgba(31, 41, 55, 0.8);">
+                        <option value="monthly">Monthly (2026)</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                </div>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Category Sales & Quick Insights -->
+            <div class="glass-card">
+                <div class="chart-header">
+                    <h4 class="mb-1">Top Selling Products</h4>
+                </div>
+                <div id="top-products-list" class="recent-activity-list">
+                    <div class="text-center py-4 text-muted">
+                        <div class="spinner-border spinner-border-sm text-indigo mb-2" role="status"></div>
+                        <p class="small mb-0">Loading top products...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Orders Data Table & Low Stock Alerts -->
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="glass-card">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h4 class="mb-0">Recent Orders</h4>
+                        <a href="orders.html" class="btn btn-sm btn-secondary-glass">
+                            View All Orders <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="custom-table-container">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-orders-tbody">
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-muted">
+                                        <div class="spinner-border spinner-border-sm text-primary"></div> Fetching live orders...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="glass-card">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h4 class="mb-0">Low Stock Inventory</h4>
+                        <a href="inventory.html" class="btn btn-sm btn-secondary-glass">Manage Stock</a>
+                    </div>
+                    <div id="low-stock-list" class="recent-activity-list">
+                        <div class="text-center py-4 text-muted">Loading low stock items...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- JS Scripts -->
+<script src="js/auth.js"></script>
+<script src="js/sidebar.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,27 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>GadgetWorld</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GadgetWorld AI</title>
+    <script>
+        const token = localStorage.getItem("token");
+        const adminToken = localStorage.getItem("adminToken");
+        const userRole = localStorage.getItem("userRole");
+
+        if (adminToken || userRole === "admin") {
+            window.location.href = "../admin/dashboard.html";
+        } else if (token) {
+            window.location.href = "Home.html";
+        } else {
+            window.location.href = "Login.html";
+        }
+    </script>
 </head>
-
-<body>
-
-<script>
-
-const token = sessionStorage.getItem("token");
-
-if(token){
-
-    window.location.href="pages/Home.html";
-
-}
-else{
-
-    window.location.href="pages/Login.html";
-
-}
-
-</script>
-
+<body style="background: #080c14; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh;">
+    <div style="text-align: center;">
+        <h2>Redirecting to GadgetWorld...</h2>
+    </div>
 </body>
 </html>

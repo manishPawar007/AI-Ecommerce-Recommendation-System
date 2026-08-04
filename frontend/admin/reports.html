@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports Generator | GadgetWorld AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div class="admin-wrapper">
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div>
+                <h3 class="mb-0 text-white">Store Reports Generator</h3>
+                <p class="text-muted small mb-0">Generate, download and print store analytics</p>
+            </div>
+            
+            <div class="header-actions">
+                <div id="backend-status" class="backend-status-badge">
+                    <span class="status-dot"></span> API Active
+                </div>
+            </div>
+        </header>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="glass-card text-center p-4">
+                    <div class="stat-icon mx-auto mb-3" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <i class="bi bi-file-earmark-spreadsheet"></i>
+                    </div>
+                    <h4>Sales & Revenue Report</h4>
+                    <p class="text-muted small">Export full itemized order history and revenue breakdown</p>
+                    <button class="btn btn-primary-gradient w-100 mt-2" onclick="downloadReport('sales')">
+                        <i class="bi bi-download"></i> Download Sales CSV
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="glass-card text-center p-4">
+                    <div class="stat-icon mx-auto mb-3" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                        <i class="bi bi-boxes"></i>
+                    </div>
+                    <h4>Inventory & Stock Report</h4>
+                    <p class="text-muted small">Export stock levels, catalog pricing, and reorder alerts</p>
+                    <button class="btn btn-primary-gradient w-100 mt-2" onclick="downloadReport('inventory')">
+                        <i class="bi bi-download"></i> Download Inventory CSV
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="glass-card text-center p-4">
+                    <div class="stat-icon mx-auto mb-3" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h4>Customer Growth Report</h4>
+                    <p class="text-muted small">Export user registrations, customer lifetime value details</p>
+                    <button class="btn btn-primary-gradient w-100 mt-2" onclick="downloadReport('customers')">
+                        <i class="bi bi-download"></i> Download Customer CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/sidebar.js"></script>
+<script src="js/reports.js"></script>
+</body>
+</html>

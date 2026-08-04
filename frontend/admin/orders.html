@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Management | GadgetWorld AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div class="admin-wrapper">
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-search">
+                <i class="bi bi-search"></i>
+                <input type="text" id="order-search" placeholder="Search by order # or customer..." oninput="filterOrders()">
+            </div>
+            
+            <div class="header-actions">
+                <div id="backend-status" class="backend-status-badge">
+                    <span class="status-dot"></span> API Active
+                </div>
+            </div>
+        </header>
+
+        <!-- Filter Bar -->
+        <div class="glass-card mb-4 p-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <button class="btn btn-sm btn-primary-gradient active-status-btn" onclick="filterByStatus('', this)">All Orders</button>
+                <button class="btn btn-sm btn-secondary-glass" onclick="filterByStatus('Placed', this)">Placed</button>
+                <button class="btn btn-sm btn-secondary-glass" onclick="filterByStatus('Pending', this)">Pending</button>
+                <button class="btn btn-sm btn-secondary-glass" onclick="filterByStatus('Processing', this)">Processing</button>
+                <button class="btn btn-sm btn-secondary-glass" onclick="filterByStatus('Shipped', this)">Shipped</button>
+                <button class="btn btn-sm btn-secondary-glass" onclick="filterByStatus('Delivered', this)">Delivered</button>
+                <button class="btn btn-sm btn-secondary-glass" onclick="filterByStatus('Cancelled', this)">Cancelled</button>
+            </div>
+
+            <div class="text-muted small">
+                Total Orders: <strong id="order-count" class="text-white">0</strong>
+            </div>
+        </div>
+
+        <!-- Orders Data Table -->
+        <div class="glass-card">
+            <div class="custom-table-container">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Update Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                        <tr>
+                            <td colspan="7" class="text-center py-5 text-muted">
+                                <div class="spinner-border spinner-border-sm text-primary mb-2"></div>
+                                <p>Loading orders from backend API...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Order Detail Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderModalTitle">Order Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="orderModalBody">
+                <div class="text-center py-4 text-muted">Loading details...</div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary-glass" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-primary-gradient" onclick="window.print()"><i class="bi bi-printer"></i> Print Invoice</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/sidebar.js"></script>
+<script src="js/orders.js"></script>
+</body>
+</html>

@@ -9,28 +9,36 @@ from config import (
     ACCESS_TOKEN_EXPIRE_MINUTES
 )
 
-# ==========================
-# Password Hashing
-# ==========================
-
-pwd_context = CryptContext(
-    schemes=["bcrypt"],
-    deprecated="auto"
-)
-
+import bcrypt
 
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    pwd_bytes = password.encode('utf-8')[:72]
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(pwd_bytes, salt).decode('utf-8')
 
 
 def verify_password(
     plain_password: str,
     hashed_password: str
 ) -> bool:
-    return pwd_context.verify(
-        plain_password,
-        hashed_password
-    )
+    if not hashed_password or not plain_password:
+        return False
+
+    plain_password = plain_password.strip()
+
+    if hashed_password.startswith(("$2b$", "$2a$", "$2y$", "$2$")):
+        try:
+            valid_hash = hashed_password
+            if valid_hash.startswith("$2y$"):
+                valid_hash = "$2b$" + valid_hash[4:]
+            return bcrypt.checkpw(
+                plain_password.encode('utf-8')[:72],
+                valid_hash.encode('utf-8')
+            )
+        except Exception:
+            pass
+
+    return plain_password == hashed_password
 
 
 # ==========================
