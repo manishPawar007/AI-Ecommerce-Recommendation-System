@@ -4,12 +4,19 @@ from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Load Dataset
-DATA_FILE = Path(__file__).resolve().parents[2] / "datasets" / "amazon_flipkart_products_1000.csv"
+# Load Dataset - Search multiple candidate relative locations for flexibility across environments
+candidate_paths = [
+    Path(__file__).resolve().parents[2] / "datasets" / "amazon_flipkart_products_1000.csv",
+    Path(__file__).resolve().parents[1] / "datasets" / "amazon_flipkart_products_1000.csv",
+    Path.cwd() / "datasets" / "amazon_flipkart_products_1000.csv",
+    Path.cwd() / "backend" / "datasets" / "amazon_flipkart_products_1000.csv"
+]
+DATA_FILE = next((p for p in candidate_paths if p.exists()), candidate_paths[0])
 
 def load_products_data():
     if not DATA_FILE.exists():
-        raise FileNotFoundError(f"Dataset file not found: {DATA_FILE}")
+        print(f"Warning: Dataset file not found at {DATA_FILE}, creating fallback DataFrame")
+        return pd.DataFrame(columns=["id", "product_name", "brand", "category", "description", "price", "rating", "stock", "image_url"])
     
     df = pd.read_csv(DATA_FILE, encoding="latin1")
     

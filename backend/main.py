@@ -97,9 +97,15 @@ def seed_initial_data():
 
         # Seed Products if empty
         if db.query(Product).count() == 0:
-            dataset_path = os.path.join(os.path.dirname(__file__), "..", "datasets", "amazon_flipkart_products_1000.csv")
-            if os.path.exists(dataset_path):
+            dataset_candidates = [
+                os.path.join(os.path.dirname(__file__), "..", "datasets", "amazon_flipkart_products_1000.csv"),
+                os.path.join(os.getcwd(), "datasets", "amazon_flipkart_products_1000.csv"),
+                os.path.join(os.getcwd(), "backend", "datasets", "amazon_flipkart_products_1000.csv")
+            ]
+            dataset_path = next((p for p in dataset_candidates if os.path.exists(p)), None)
+            if dataset_path:
                 df = pd.read_csv(dataset_path, encoding="latin1")
+                products_to_add = []
                 for _, row in df.iterrows():
                     p_id = int(row["id"]) if "id" in row and not pd.isna(row["id"]) else None
                     product = Product(
@@ -110,7 +116,9 @@ def seed_initial_data():
                         stock=int(row.get("stock", 50)),
                         image_url=str(row.get("image_url", "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"))
                     )
-                    db.add(product)
+                    products_to_add.append(product)
+                if products_to_add:
+                    db.add_all(products_to_add)
 
         # Seed Coupons
         from models import Coupon
