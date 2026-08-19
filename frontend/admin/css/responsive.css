@@ -1,0 +1,292 @@
+/* ==========================================
+            LARGE DEVICES
+========================================== */
+
+@media (max-width:1400px){
+
+    .container-fluid{
+
+        padding:25px;
+
+    }
+
+    .dashboard-card h2{
+
+        font-size:30px;
+
+    }
+
+}
+
+/* ==========================================
+            LAPTOPS
+========================================== */
+
+@media (max-width:1200px){
+
+    :root{
+
+        --sidebar-width:240px;
+
+    }
+
+    .main-content{
+
+        margin-left:240px;
+
+    }
+
+    .dashboard-card{
+
+        min-height:140px;
+
+    }
+
+    .top-navbar{
+
+        padding:0 20px;
+
+    }
+
+    .chart-card{
+
+        min-height:360px;
+
+    }
+
+}
+
+/* ==========================================
+            TABLETS
+========================================== */
+
+@media (max-width:992px){
+
+    .sidebar{
+
+        left:-100%;
+
+    }
+
+    .sidebar.active{
+
+        left:0;
+
+    }
+
+    .main-content{
+
+        margin-left:0;
+
+        width:100%;
+
+    }
+
+    .top-navbar{
+
+        padding:15px;
+
+    }
+
+    .container-fluid{
+
+        padding:20px;
+
+    }
+
+    .dashboard-card{
+
+        margin-bottom:20px;
+
+    }
+
+    .chart-card{
+
+        margin-top:20px;
+
+    }
+
+    .table-responsive{
+
+        overflow-x:auto;
+
+    }
+
+    .quick-action{
+
+        margin-bottom:20px;
+
+    }
+
+}
+
+/* ==========================================
+            MOBILE
+========================================== */
+
+@media (max-width:768px){
+
+    .container-fluid{
+
+        padding:15px;
+
+    }
+
+    .top-navbar{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        height:auto;
+
+        gap:15px;
+
+        padding:15px;
+
+    }
+
+    .dashboard-card{
+
+        min-height:120px;
+
+        padding:18px;
+
+    }
+
+    .dashboard-card h2{
+
+        font-size:26px;
+
+    }
+
+    .chart-card{
+
+        min-height:300px;
+
+        padding:15px;
+
+    }
+
+    .chart-card canvas{
+
+        height:240px !important;
+
+    }
+
+    .orders-table{
+
+        font-size:14px;
+
+    }
+
+    .sidebar-toggle{
+
+        display:flex;
+
+    }
+
+}
+
+/* ==========================================
+            SMALL MOBILE
+========================================== */
+
+@media (max-width:576px){
+
+    .container-fluid{
+
+        padding:12px;
+
+    }
+
+    .dashboard-card{
+
+        text-align:center;
+
+    }
+
+    .dashboard-card .icon{
+
+        position:static;
+
+        margin:15px auto;
+
+    }
+
+    .dashboard-card::before{
+
+        display:none;
+
+    }
+
+    .top-navbar img{
+
+        width:40px;
+
+        height:40px;
+
+    }
+
+    .btn{
+
+        width:100%;
+
+        margin-bottom:10px;
+
+    }
+
+    .table{
+
+        font-size:13px;
+
+    }
+
+    .form-control,
+    .form-select{
+
+        font-size:14px;
+
+    }
+
+}
+
+/* ==========================================
+            EXTRA SMALL
+========================================== */
+
+@media (max-width:400px){
+
+    .dashboard-card h2{
+
+        font-size:22px;
+
+    }
+
+    .logo h3{
+
+        font-size:20px;
+
+    }
+
+    .sidebar{
+
+        width:230px;
+
+    }
+
+    .sidebar-menu li a{
+
+        font-size:13px;
+
+        padding:12px;
+
+    }
+
+    .sidebar-menu li a i{
+
+        font-size:18px;
+
+    }
+
+}

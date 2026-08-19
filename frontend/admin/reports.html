@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Reports | GadgetWorld Admin</title>
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <div id="adminSidebarSlot"></div>
+
+    <div class="admin-main">
+        <div id="adminTopbarSlot"></div>
+
+        <div class="admin-body">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+                <div>
+                    <h1 style="font-size: 1.8rem; margin-bottom: 4px;">Business Reports & Audits</h1>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Generate sales summaries, inventory valuations, and customer logs.</p>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="window.print()">
+                    🖨️ Print Report
+                </button>
+            </div>
+
+            <!-- REPORT TABS -->
+            <div style="display: flex; gap: 10px; margin-bottom: 24px;">
+                <button class="btn btn-primary btn-sm" id="tabSalesBtn" onclick="switchReport('sales', this)">Sales Report</button>
+                <button class="btn btn-secondary btn-sm" id="tabInvBtn" onclick="switchReport('inventory', this)">Inventory Valuation</button>
+                <button class="btn btn-secondary btn-sm" id="tabCustBtn" onclick="switchReport('customers', this)">Customer Audit</button>
+            </div>
+
+            <!-- KPI SUMMARY METRICS -->
+            <div class="kpi-grid" id="reportKpiGrid">
+                <!-- Injected dynamically -->
+            </div>
+
+            <!-- REPORT DATA TABLE -->
+            <div class="admin-card">
+                <h3 style="font-size: 1.15rem; margin-bottom: 16px; color: #FFF;" id="reportTableTitle">Sales Report Data</h3>
+                <div class="table-responsive">
+                    <table class="admin-table" id="reportTable">
+                        <thead id="reportThead">
+                            <!-- Dynamic -->
+                        </thead>
+                        <tbody id="reportTbody">
+                            <!-- Dynamic -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin-core.js"></script>
+    <script>
+        let activeReportType = "sales";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderAdminLayout("reports");
+            loadReportData("sales");
+        });
+
+        function switchReport(type, btnElement) {
+            activeReportType = type;
+            document.querySelectorAll("#tabSalesBtn, #tabInvBtn, #tabCustBtn").forEach(b => b.className = "btn btn-secondary btn-sm");
+            if (btnElement) btnElement.className = "btn btn-primary btn-sm";
+            loadReportData(type);
+        }
+
+        async function loadReportData(type) {
+            const kpiGrid = document.getElementById("reportKpiGrid");
+            const thead = document.getElementById("reportThead");
+            const tbody = document.getElementById("reportTbody");
+            const title = document.getElementById("reportTableTitle");
+
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 30px;">Generating ${type} report...</td></tr>`;
+
+            try {
+                const res = await adminApi(`/admin/reports?report_type=${type}`);
+
+                if (type === "sales") {
+                    title.textContent = "Orders & Revenue Breakdown";
+                    kpiGrid.innerHTML = `
+                        <div class="kpi-card">
+                            <div class="kpi-label">Total Realized Sales</div>
+                            <div class="kpi-value">${formatPrice(res.total_sales || 0)}</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">Total Invoiced Orders</div>
+                            <div class="kpi-value">${res.total_orders || 0}</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">Average Order Value</div>
+                            <div class="kpi-value">${formatPrice(res.average_order_value || 0)}</div>
+                        </div>
+                    `;
+
+                    thead.innerHTML = `
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer ID</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    `;
+
+                    const orders = res.data || [];
+                    tbody.innerHTML = orders.map(o => `
+                        <tr>
+                            <td><strong>ORD-${o.id}</strong></td>
+                            <td>User #${o.user_id}</td>
+                            <td><strong>${formatPrice(o.total_amount)}</strong></td>
+                            <td><span class="badge badge-ai">${o.status}</span></td>
+                            <td style="color: var(--text-muted);">${new Date(o.created_at).toLocaleDateString()}</td>
+                        </tr>
+                    `).join('') || `<tr><td colspan="5" style="text-align: center;">No sales records.</td></tr>`;
+
+                } else if (type === "inventory") {
+                    title.textContent = "Inventory Stock & Capital Valuation";
+                    kpiGrid.innerHTML = `
+                        <div class="kpi-card">
+                            <div class="kpi-label">Total Catalog Products</div>
+                            <div class="kpi-value">${res.products || 0}</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">Total Asset Valuation</div>
+                            <div class="kpi-value" style="color: var(--accent-emerald);">${formatPrice(res.inventory_value || 0)}</div>
+                        </div>
+                    `;
+
+                    thead.innerHTML = `
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Asset Value</th>
+                        </tr>
+                    `;
+
+                    const prods = res.data || [];
+                    tbody.innerHTML = prods.map(p => `
+                        <tr>
+                            <td>#${p.id}</td>
+                            <td style="max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.description}</td>
+                            <td>${p.category || 'General'}</td>
+                            <td>${formatPrice(p.price)}</td>
+                            <td>${p.stock} units</td>
+                            <td><strong>${formatPrice(p.price * p.stock)}</strong></td>
+                        </tr>
+                    `).join('');
+
+                } else if (type === "customers") {
+                    title.textContent = "Customer Accounts Audit";
+                    kpiGrid.innerHTML = `
+                        <div class="kpi-card">
+                            <div class="kpi-label">Total Registered Customers</div>
+                            <div class="kpi-value">${res.total_customers || 0}</div>
+                        </div>
+                    `;
+
+                    thead.innerHTML = `
+                        <tr>
+                            <th>User ID</th>
+                            <th>Customer Name</th>
+                            <th>Email Address</th>
+                            <th>Role</th>
+                        </tr>
+                    `;
+
+                    const custs = res.data || [];
+                    tbody.innerHTML = custs.map(c => `
+                        <tr>
+                            <td>#${c.id}</td>
+                            <td><strong>${c.name}</strong></td>
+                            <td style="color: var(--text-muted);">${c.email}</td>
+                            <td><span class="badge badge-ai">${c.role}</span></td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (e) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--accent-rose);">Report error: ${e.message}</td></tr>`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,1255 +1,230 @@
-// =====================================================
-// GadgetWorld Analytics Dashboard
-// analytics.js
-// Part 1A
-// =====================================================
+/**
+ * ===================================================================
+ * GADGETWORLD CUSTOMER ANALYTICS LOGIC (analytics.js)
+ * Chart.js Visualizations, Shopping Habit Analytics & AI Predictions
+ * ===================================================================
+ */
 
-// ================================
-// AUTHENTICATION
-// ================================
+document.addEventListener("DOMContentLoaded", async () => {
+    renderUserNav();
+    await loadCustomerAnalytics();
+});
 
-const token = localStorage.getItem("token");
-const role = localStorage.getItem("role");
+function renderUserNav() {
+    const userSlot = document.getElementById("userNavSlot");
+    if (!userSlot) return;
 
-if (!token) {
-
-    window.location.href = "Login.html";
-
-}
-
-if (role !== "admin") {
-
-    alert("Access Denied! Admin Login Required.");
-
-    window.location.href = "Home.html";
-
-}
-
-// ================================
-// CHART OBJECTS
-// ================================
-
-let revenueChart = null;
-let comparisonChart = null;
-let categoryChart = null;
-let monthlyChart = null;
-
-// ================================
-// GLOBAL DATA
-// ================================
-
-let dashboard = {};
-let topProducts = [];
-let lowStock = [];
-let categorySales = [];
-let monthlySales = [];
-let recentOrders = [];
-let latestUsers = [];
-
-// ================================
-// HELPER FUNCTIONS
-// ================================
-
-function setValue(id, value) {
-
-    const element = document.getElementById(id);
-
-    if (element) {
-
-        element.innerText = value ?? "-";
-
+    const user = getUser();
+    if (user) {
+        userSlot.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <a href="Profile.html" class="btn btn-secondary btn-sm" style="display: flex; align-items: center; gap: 6px;">
+                    <span>👤</span> <span>${user.name.split(' ')[0]}</span>
+                </a>
+                ${user.role === 'admin' ? `
+                    <a href="../admin/dashboard.html" class="btn btn-primary btn-sm" style="background: var(--gradient-accent);">
+                        👑 Admin
+                    </a>
+                ` : ''}
+            </div>
+        `;
+    } else {
+        userSlot.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <a href="Login.html" class="btn btn-primary btn-sm">Sign In</a>
+            </div>
+        `;
     }
-
 }
 
-function formatCurrency(amount) {
-
-    return "₹" + Number(amount || 0).toLocaleString("en-IN");
-
-}
-
-function showLoading(button) {
-
-    if (!button) return;
-
-    button.disabled = true;
-    button.innerHTML = "Loading Dashboard...";
-
-}
-
-function hideLoading(button) {
-
-    if (!button) return;
-
-    button.disabled = false;
-    button.innerHTML = "🔄 Refresh Dashboard";
-
-}
-
-// ================================
-// SAFE API CALL
-// ================================
-
-async function safeRequest(endpoint, fallback = []) {
+async function loadCustomerAnalytics() {
+    const user = getUser();
+    if (!user) {
+        window.location.href = "Login.html";
+        return;
+    }
 
     try {
+        const [orders, predictions, persona] = await Promise.all([
+            apiRequest(`/orders/?user_id=${user.id}`),
+            apiRequest(`/recommendations/personalized?user_id=${user.id}&limit=4`),
+            apiRequest(`/recommendations/user-persona?user_id=${user.id}`).catch(() => null)
+        ]);
 
-        return await apiRequest(endpoint);
+        if (persona) {
+            const headTitle = document.getElementById("personaHeaderTitle");
+            const headIntent = document.getElementById("personaHeaderIntent");
+            const headBadge = document.getElementById("personaHeaderBadge");
+            const pBrand = document.getElementById("personaBrand");
+            const pBudget = document.getElementById("personaBudget");
 
-    }
-
-    catch (error) {
-
-        console.warn(
-            "API Failed:",
-            endpoint,
-            error
-        );
-
-        return fallback;
-
-    }
-
-}
-// =====================================================
-// LOAD ANALYTICS DASHBOARD
-// Part 1B
-// =====================================================
-
-async function loadAnalytics() {
-
-    const refreshBtn =
-        document.getElementById(
-            "refreshBtn"
-        );
-
-    showLoading(refreshBtn);
-
-    try {
-
-        // ============================
-        // FETCH ALL API DATA
-        // ============================
-
-        dashboard =
-            await safeRequest(
-                "/analytics/dashboard",
-                {}
-            );
-
-        topProducts =
-            await safeRequest(
-                "/analytics/top-products",
-                []
-            );
-
-        lowStock =
-            await safeRequest(
-                "/analytics/low-stock",
-                []
-            );
-
-        categorySales =
-            await safeRequest(
-                "/analytics/category-sales",
-                []
-            );
-
-        monthlySales =
-            await safeRequest(
-                "/analytics/monthly-sales",
-                []
-            );
-
-        recentOrders =
-            await safeRequest(
-                "/analytics/recent-orders",
-                []
-            );
-
-        latestUsers =
-            await safeRequest(
-                "/analytics/latest-users",
-                []
-            );
-
-        // ============================
-        // KPI CARDS
-        // ============================
-
-        setValue(
-            "totalProducts",
-            dashboard.total_products || 0
-        );
-
-        setValue(
-            "totalUsers",
-            dashboard.total_users || 0
-        );
-
-        setValue(
-            "totalOrders",
-            dashboard.total_orders || 0
-        );
-
-        setValue(
-            "totalCart",
-            dashboard.total_cart || 0
-        );
-
-        setValue(
-            "totalRevenue",
-            formatCurrency(
-                dashboard.total_revenue
-            )
-        );
-
-        // ============================
-        // SALES SUMMARY
-        // ============================
-
-        setValue(
-            "todaySales",
-            formatCurrency(
-                dashboard.today_sales
-            )
-        );
-
-        setValue(
-            "weeklySales",
-            formatCurrency(
-                dashboard.weekly_sales
-            )
-        );
-
-        setValue(
-            "monthlySales",
-            formatCurrency(
-                dashboard.monthly_sales
-            )
-        );
-
-        // ============================
-        // AI INSIGHTS
-        // ============================
-
-        if (topProducts.length > 0) {
-
-            setValue(
-                "bestProduct",
-                topProducts[0].product
-            );
-
-            setValue(
-                "bestSellingProduct",
-                topProducts[0].product
-            );
-
+            if (headTitle) headTitle.textContent = `AI Shopper Persona: ${persona.persona_title || 'Flagship Pro'}`;
+            if (headIntent) headIntent.textContent = persona.predicted_intent || 'Curated from your real-time cart and order activity.';
+            if (headBadge) headBadge.textContent = persona.persona_badge || '👑 Flagship Power User';
+            if (pBrand) pBrand.textContent = persona.primary_brand || 'Apple';
+            if (pBudget) pBudget.textContent = formatPrice(persona.average_budget || 50000) + ' Avg.';
         }
 
-        if (categorySales.length > 0) {
+        const totalSpent = (orders || []).reduce((sum, o) => sum + (o.total_amount || 0), 0);
+        const orderCount = (orders || []).length;
+        const aov = orderCount > 0 ? Math.round(totalSpent / orderCount) : 0;
 
-            setValue(
-                "highestCategory",
-                categorySales[0].category
-            );
+        // Determine category counts
+        const catCounts = {};
+        (orders || []).forEach(o => {
+            (o.items || []).forEach(it => {
+                const cat = it.category || "General";
+                catCounts[cat] = (catCounts[cat] || 0) + (it.quantity || 1);
+            });
+        });
 
-            setValue(
-                "fastCategory",
-                categorySales[0].category
-            );
+        const topCat = Object.keys(catCounts).length > 0 
+            ? Object.entries(catCounts).sort((a,b) => b[1] - a[1])[0][0]
+            : "Electronics";
 
-        }
+        document.getElementById("analyticsTotalSpent").textContent = formatPrice(totalSpent);
+        document.getElementById("analyticsOrdersCount").textContent = orderCount;
+        document.getElementById("analyticsTopCat").textContent = topCat;
+        document.getElementById("analyticsAOV").textContent = formatPrice(aov);
 
-        const averageOrder =
+        // Render Charts
+        renderSpendChart(orders);
+        renderCategoryPieChart(catCounts);
 
-            (dashboard.total_orders || 0) > 0
-
-            ? dashboard.total_revenue /
-              dashboard.total_orders
-
-            : 0;
-
-        setValue(
-            "avgOrder",
-            formatCurrency(
-                averageOrder.toFixed(2)
-            )
-        );
-
-        // ============================
-        // INITIALIZE DASHBOARD
-        // ============================
-
-        createRevenueChart();
-
-        createComparisonChart();
-
-        createCategoryChart();
-
-        createMonthlyChart();
-
-        loadTopProducts();
-
-        loadLowStock();
-
-        loadRecentOrders();
-
-        loadLatestUsers();
-
-        console.log(
-            "✅ GadgetWorld Analytics Loaded Successfully"
-        );
-
+        // Render Predictions
+        renderPredictions(predictions);
+    } catch (e) {
+        console.error("Customer analytics load error:", e);
     }
-
-    catch (error) {
-
-        console.error(error);
-
-        alert(
-            "Failed to load Analytics Dashboard."
-        );
-
-    }
-
-    finally {
-
-        hideLoading(refreshBtn);
-
-    }
-
 }
-// =====================================================
-// GadgetWorld Analytics Dashboard
-// Part 2 - Charts
-// =====================================================
 
-// ================================
-// REVENUE CHART
-// ================================
+function renderSpendChart(orders) {
+    const ctx = document.getElementById("spendChart");
+    if (!ctx) return;
 
-function createRevenueChart() {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"];
+    // Sample spending distribution
+    const data = [12000, 19000, 8500, 24000, 32000, 18000, 42000, 28000];
 
-    const canvas =
-        document.getElementById(
-            "revenueChart"
-        );
-
-    if (!canvas) return;
-
-    if (revenueChart) {
-
-        revenueChart.destroy();
-
-    }
-
-    revenueChart = new Chart(canvas, {
-
-        type: "line",
-
+    new Chart(ctx, {
+        type: 'line',
         data: {
-
-            labels: [
-
-                "Jan","Feb","Mar","Apr",
-
-                "May","Jun","Jul","Aug",
-
-                "Sep","Oct","Nov","Dec"
-
-            ],
-
-            datasets: [
-
-                {
-
-                    label: "Revenue",
-
-                    data:
-
-                        monthlySales.length > 0
-
-                        ? monthlySales.map(
-
-                            item => item.sales
-
-                        )
-
-                        : [
-
-                            12000,18000,25000,
-
-                            32000,45000,52000,
-
-                            60000,71000,82000,
-
-                            91000,105000,
-
-                            dashboard.total_revenue || 0
-
-                        ],
-
-                    borderColor: "#2563eb",
-
-                    backgroundColor:
-
-                        "rgba(37,99,235,.15)",
-
-                    borderWidth: 3,
-
-                    fill: true,
-
-                    tension: .4
-
-                }
-
-            ]
-
+            labels: months,
+            datasets: [{
+                label: 'Monthly Spend (₹)',
+                data: data,
+                borderColor: '#6366F1',
+                backgroundColor: 'rgba(99, 102, 241, 0.12)',
+                fill: true,
+                tension: 0.4,
+                borderWidth: 3,
+                pointBackgroundColor: '#8B5CF6',
+                pointRadius: 5
+            }]
         },
-
         options: {
-
             responsive: true,
-
-            maintainAspectRatio: false
-
-        }
-
-    });
-
-}
-
-// ================================
-// PRODUCTS VS ORDERS
-// ================================
-
-function createComparisonChart() {
-
-    const canvas =
-        document.getElementById(
-            "comparisonChart"
-        );
-
-    if (!canvas) return;
-
-    if (comparisonChart) {
-
-        comparisonChart.destroy();
-
-    }
-
-    comparisonChart = new Chart(canvas, {
-
-        type: "doughnut",
-
-        data: {
-
-            labels: [
-
-                "Products",
-
-                "Orders",
-
-                "Users",
-
-                "Cart"
-
-            ],
-
-            datasets: [
-
-                {
-
-                    data: [
-
-                        dashboard.total_products || 0,
-
-                        dashboard.total_orders || 0,
-
-                        dashboard.total_users || 0,
-
-                        dashboard.total_cart || 0
-
-                    ],
-
-                    backgroundColor: [
-
-                        "#2563eb",
-
-                        "#10b981",
-
-                        "#f59e0b",
-
-                        "#ec4899"
-
-                    ]
-
-                }
-
-            ]
-
-        },
-
-        options: {
-
-            responsive: true
-
-        }
-
-    });
-
-}
-
-// ================================
-// CATEGORY SALES
-// ================================
-
-function createCategoryChart() {
-
-    const canvas =
-        document.getElementById(
-            "categoryChart"
-        );
-
-    if (!canvas) return;
-
-    if (categoryChart) {
-
-        categoryChart.destroy();
-
-    }
-
-    categoryChart = new Chart(canvas, {
-
-        type: "bar",
-
-        data: {
-
-            labels:
-
-                categorySales.map(
-
-                    item => item.category
-
-                ),
-
-            datasets: [
-
-                {
-
-                    label: "Products",
-
-                    data:
-
-                        categorySales.map(
-
-                            item => item.count
-
-                        ),
-
-                    backgroundColor: [
-
-                        "#2563eb",
-
-                        "#10b981",
-
-                        "#f59e0b",
-
-                        "#ef4444",
-
-                        "#8b5cf6",
-
-                        "#06b6d4",
-
-                        "#ec4899",
-
-                        "#14b8a6"
-
-                    ]
-
-                }
-
-            ]
-
-        },
-
-        options: {
-
-            responsive: true,
-
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
             scales: {
-
+                x: {
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                    ticks: { color: '#94A3B8' }
+                },
                 y: {
-
-                    beginAtZero: true
-
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                    ticks: {
+                        color: '#94A3B8',
+                        callback: val => '₹' + (val / 1000) + 'k'
+                    }
                 }
-
             }
-
         }
-
     });
-
 }
 
-// ================================
-// MONTHLY SALES
-// ================================
+function renderCategoryPieChart(catCounts) {
+    const ctx = document.getElementById("categoryPieChart");
+    if (!ctx) return;
 
-function createMonthlyChart() {
+    let labels = Object.keys(catCounts);
+    let data = Object.values(catCounts);
 
-    const canvas =
-        document.getElementById(
-            "monthlySalesChart"
-        );
-
-    if (!canvas) return;
-
-    if (monthlyChart) {
-
-        monthlyChart.destroy();
-
+    if (labels.length === 0) {
+        labels = ["Mobiles", "Laptops", "Headphones", "Accessories"];
+        data = [45, 25, 20, 10];
     }
 
-    monthlyChart = new Chart(canvas, {
-
-        type: "bar",
-
+    new Chart(ctx, {
+        type: 'doughnut',
         data: {
-
-            labels:
-
-                monthlySales.length > 0
-
-                ? monthlySales.map(
-
-                    item => item.month
-
-                )
-
-                : [
-
-                    "Jan","Feb","Mar",
-
-                    "Apr","May","Jun"
-
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: [
+                    '#6366F1',
+                    '#06B6D4',
+                    '#10B981',
+                    '#F59E0B',
+                    '#F43F5E'
                 ],
-
-            datasets: [
-
-                {
-
-                    label: "Monthly Sales",
-
-                    data:
-
-                        monthlySales.length > 0
-
-                        ? monthlySales.map(
-
-                            item => item.sales
-
-                        )
-
-                        : [
-
-                            10000,
-
-                            18000,
-
-                            25000,
-
-                            32000,
-
-                            47000,
-
-                            dashboard.total_revenue || 0
-
-                        ],
-
-                    backgroundColor:
-
-                        "#3b82f6"
-
-                }
-
-            ]
-
+                borderWidth: 0
+            }]
         },
-
         options: {
-
-            responsive: true
-
-        }
-
-    });
-
-}
-// =====================================================
-// GadgetWorld Analytics Dashboard
-// Part 3 - Tables & Inventory
-// =====================================================
-
-// ================================
-// TOP PRODUCTS TABLE
-// ================================
-
-function loadTopProducts() {
-
-    const table =
-        document.getElementById(
-            "topProductsTable"
-        );
-
-    if (!table) return;
-
-    let html = "";
-
-    if (topProducts.length === 0) {
-
-        html = `
-        <tr>
-            <td colspan="4">
-                No Products Found
-            </td>
-        </tr>
-        `;
-
-    }
-
-    else {
-
-        topProducts.forEach(
-
-            (product,index)=>{
-
-                html += `
-
-                <tr>
-
-                    <td>
-
-                        #${index+1}
-
-                    </td>
-
-                    <td>
-
-                        ${product.product}
-
-                    </td>
-
-                    <td>
-
-                        ${product.category || "-"}
-
-                    </td>
-
-                    <td>
-
-                        ${product.sold}
-
-                    </td>
-
-                </tr>
-
-                `;
-
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { color: '#94A3B8', padding: 14 }
+                }
             }
-
-        );
-
-    }
-
-    table.innerHTML = html;
-
-}
-
-// ================================
-// LOW STOCK TABLE
-// ================================
-
-function loadLowStock() {
-
-    const table =
-        document.getElementById(
-            "lowStockTable"
-        );
-
-    if(!table) return;
-
-    let html="";
-
-    if(lowStock.length===0){
-
-        html=`
-
-        <tr>
-
-            <td colspan="2">
-
-                No Low Stock Products
-
-            </td>
-
-        </tr>
-
-        `;
-
-    }
-
-    else{
-
-        lowStock.forEach(product=>{
-
-            html+=`
-
-            <tr>
-
-                <td>
-
-                    ${product.description}
-
-                </td>
-
-                <td>
-
-                    ${product.stock}
-
-                </td>
-
-            </tr>
-
-            `;
-
-        });
-
-    }
-
-    table.innerHTML=html;
-
-}
-
-// ================================
-// RECENT ORDERS
-// ================================
-
-function loadRecentOrders(){
-
-    const table=
-
-        document.getElementById(
-
-            "recentOrders"
-
-        );
-
-    if(!table) return;
-
-    let html="";
-
-    if(recentOrders.length===0){
-
-        html=`
-
-        <tr>
-
-            <td colspan="5">
-
-                No Orders Found
-
-            </td>
-
-        </tr>
-
-        `;
-
-    }
-
-    else{
-
-        recentOrders.forEach(order=>{
-
-            html+=`
-
-            <tr>
-
-                <td>
-
-                    #${order.id}
-
-                </td>
-
-                <td>
-
-                    ${order.user || "-"}
-
-                </td>
-
-                <td>
-
-                    ${formatCurrency(order.total_amount)}
-
-                </td>
-
-                <td>
-
-                    ${order.status}
-
-                </td>
-
-                <td>
-
-                    ${order.created_at || "-"}
-
-                </td>
-
-            </tr>
-
-            `;
-
-        });
-
-    }
-
-    table.innerHTML=html;
-
-}
-
-// ================================
-// LATEST USERS
-// ================================
-
-function loadLatestUsers(){
-
-    const table=
-
-        document.getElementById(
-
-            "latestUsers"
-
-        );
-
-    if(!table) return;
-
-    let html="";
-
-    if(latestUsers.length===0){
-
-        html=`
-
-        <tr>
-
-            <td colspan="3">
-
-                No Users Found
-
-            </td>
-
-        </tr>
-
-        `;
-
-    }
-
-    else{
-
-        latestUsers.forEach(user=>{
-
-            html+=`
-
-            <tr>
-
-                <td>
-
-                    ${user.id}
-
-                </td>
-
-                <td>
-
-                    ${user.name}
-
-                </td>
-
-                <td>
-
-                    ${user.email}
-
-                </td>
-
-            </tr>
-
-            `;
-
-        });
-
-    }
-
-    table.innerHTML=html;
-
-}
-
-// ================================
-// INVENTORY STATUS
-// ================================
-
-function updateInventory(){
-
-    const stock=
-
-        document.getElementById(
-
-            "stockProgress"
-
-        );
-
-    const low=
-
-        document.getElementById(
-
-            "lowStockProgress"
-
-        );
-
-    const out=
-
-        document.getElementById(
-
-            "outStockProgress"
-
-        );
-
-    if(stock){
-
-        stock.value=
-
-            dashboard.in_stock_percent || 80;
-
-    }
-
-    if(low){
-
-        low.value=
-
-            dashboard.low_stock_percent || 15;
-
-    }
-
-    if(out){
-
-        out.value=
-
-            dashboard.out_stock_percent || 5;
-
-    }
-
-}
-// =====================================================
-// GadgetWorld Analytics Dashboard
-// Part 4 - Final
-// =====================================================
-
-// ======================================
-// EXPORT FUNCTIONS
-// ======================================
-
-function downloadPDF(){
-
-    alert(
-        "📄 PDF Export will be connected to FastAPI Report API."
-    );
-
-}
-
-function downloadExcel(){
-
-    alert(
-        "📊 Excel Export will be connected to FastAPI Report API."
-    );
-
-}
-
-function downloadCSV(){
-
-    alert(
-        "📑 CSV Export will be connected to FastAPI Report API."
-    );
-
-}
-
-// ======================================
-// REFRESH DASHBOARD
-// ======================================
-
-async function refreshDashboard(){
-
-    console.clear();
-
-    console.log(
-        "Refreshing Dashboard..."
-    );
-
-    await loadAnalytics();
-
-}
-
-// ======================================
-// REFRESH BUTTON
-// ======================================
-
-const refreshButton =
-
-document.getElementById(
-    "refreshBtn"
-);
-
-if(refreshButton){
-
-    refreshButton.addEventListener(
-
-        "click",
-
-        refreshDashboard
-
-    );
-
-}
-
-// ======================================
-// AUTO REFRESH
-// ======================================
-
-const AUTO_REFRESH_TIME =
-
-60000;
-
-setInterval(
-
-    async()=>{
-
-        console.log(
-
-            "Auto Refresh Dashboard"
-
-        );
-
-        await loadAnalytics();
-
-    },
-
-    AUTO_REFRESH_TIME
-
-);
-
-// ======================================
-// PAGE LOADER
-// ======================================
-
-window.addEventListener(
-
-    "DOMContentLoaded",
-
-    async()=>{
-
-        console.log(
-
-            "Loading GadgetWorld Analytics..."
-
-        );
-
-        await loadAnalytics();
-
-        updateInventory();
-
-    }
-
-);
-
-// ======================================
-// SHORTCUT KEY
-// CTRL + R
-// ======================================
-
-document.addEventListener(
-
-    "keydown",
-
-    function(event){
-
-        if(
-
-            event.ctrlKey &&
-
-            event.key.toLowerCase()=="r"
-
-        ){
-
-            event.preventDefault();
-
-            refreshDashboard();
-
         }
+    });
+}
 
+function renderPredictions(items) {
+    const grid = document.getElementById("analyticsPredictionsGrid");
+    if (!grid) return;
+
+    if (!items || items.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No predictions available.</div>`;
+        return;
     }
 
-);
+    const fallbackImg = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60";
+    grid.innerHTML = items.map(p => `
+        <div class="product-card">
+            <div class="product-image-container" onclick="openQuickView(${p.id})" style="cursor: pointer;">
+                <img src="${p.image_url || fallbackImg}" alt="${p.product_name}" class="product-image" onerror="this.src='${fallbackImg}'">
+                <div class="product-badge-float">
+                    <span class="badge badge-ai">🤖 ${p.match_percentage || 98}% Match</span>
+                </div>
+            </div>
 
-// ======================================
-// ONLINE / OFFLINE STATUS
-// ======================================
+            <div class="product-info">
+                <div class="product-category">${p.category || 'General'}</div>
+                <h4 class="product-title" title="${p.product_name}" onclick="openQuickView(${p.id})" style="cursor: pointer;">
+                    ${p.product_name}
+                </h4>
 
-window.addEventListener(
+                <div class="product-meta">
+                    <div class="product-price">${formatPrice(p.price)}</div>
+                    <div class="product-rating">⭐ ${p.rating || 4.5}</div>
+                </div>
 
-    "offline",
-
-    ()=>{
-
-        alert(
-
-            "⚠ Internet Connection Lost"
-
-        );
-
-    }
-
-);
-
-window.addEventListener(
-
-    "online",
-
-    ()=>{
-
-        console.log(
-
-            "Internet Connected"
-
-        );
-
-        refreshDashboard();
-
-    }
-
-);
-
-// ======================================
-// DASHBOARD VERSION
-// ======================================
-
-console.log(
-
-    "%cGadgetWorld Analytics Dashboard v2.0",
-
-    "color:#2563eb;font-size:18px;font-weight:bold;"
-
-);
-
-console.log(
-
-    "Dashboard Ready Successfully"
-
-);
+                <div class="product-actions">
+                    <button class="btn btn-primary btn-sm" onclick="addToCartGlobal(${p.id}, 1, this)">
+                        <span>🛒</span> Add to Cart
+                    </button>
+                    <button class="btn btn-secondary btn-sm" onclick="openQuickView(${p.id})" title="Quick View">
+                        👁️
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}

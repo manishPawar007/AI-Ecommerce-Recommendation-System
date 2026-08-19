@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coupons & Promo Codes | GadgetWorld Admin</title>
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <div id="adminSidebarSlot"></div>
+
+    <div class="admin-main">
+        <div id="adminTopbarSlot"></div>
+
+        <div class="admin-body">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+                <div>
+                    <h1 style="font-size: 1.8rem; margin-bottom: 4px;">Coupons & Discount Codes</h1>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Create marketing promotional codes and manage customer discounts.</p>
+                </div>
+                <button class="btn btn-primary" onclick="openAddCouponModal()">
+                    + Create Promo Code
+                </button>
+            </div>
+
+            <!-- COUPONS TABLE -->
+            <div class="admin-card">
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Coupon Code</th>
+                                <th>Discount</th>
+                                <th>Min. Order</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="couponsTbody">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD COUPON MODAL -->
+    <div id="couponModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 460px;">
+            <button class="modal-close" onclick="closeCouponModal()">✕</button>
+            <h3 style="font-size: 1.3rem; margin-bottom: 18px; color: #FFF;">Create Promo Code</h3>
+            
+            <form onsubmit="event.preventDefault(); saveCouponSubmit();">
+                <div class="form-group">
+                    <label class="form-label">Coupon Code (Uppercase) *</label>
+                    <input type="text" id="cpCode" class="form-input" required placeholder="e.g. FLASH50" style="text-transform: uppercase; font-weight: 700;">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">Discount Value *</label>
+                        <input type="number" id="cpDiscount" class="form-input" required min="1" placeholder="20">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Type</label>
+                        <select id="cpType" class="form-input">
+                            <option value="percent">Percentage (%)</option>
+                            <option value="fixed">Fixed (₹)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Minimum Order Requirement (₹)</label>
+                    <input type="number" id="cpMin" class="form-input" value="999">
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeCouponModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Code ✔</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin-core.js"></script>
+    <script>
+        let localCoupons = [
+            { id: 1, code: "SAVE10", discount: 10, type: "percent", min: 999, active: true },
+            { id: 2, code: "TECH20", discount: 20, type: "percent", min: 2499, active: true },
+            { id: 3, code: "WELCOME50", discount: 500, type: "fixed", min: 1499, active: true },
+            { id: 4, code: "FESTIVE100", discount: 1000, type: "fixed", min: 4999, active: true }
+        ];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderAdminLayout("coupons");
+            renderCouponsTable();
+        });
+
+        function renderCouponsTable() {
+            const tbody = document.getElementById("couponsTbody");
+            if (!tbody) return;
+
+            tbody.innerHTML = localCoupons.map(c => `
+                <tr>
+                    <td><strong style="color: var(--accent-cyan); font-family: 'Outfit'; font-size: 1.05rem; letter-spacing: 0.05em;">${c.code}</strong></td>
+                    <td><strong>${c.type === 'percent' ? `${c.discount}% OFF` : `₹${c.discount} OFF`}</strong></td>
+                    <td>${formatPrice(c.min)}</td>
+                    <td>
+                        <span class="badge ${c.active ? 'badge-stock' : 'badge-low-stock'}">
+                            ${c.active ? 'Active' : 'Disabled'}
+                        </span>
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-secondary btn-sm" onclick="toggleCoupon(${c.id})">
+                                ${c.active ? 'Disable' : 'Enable'}
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteCoupon(${c.id})">
+                                🗑
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openAddCouponModal() {
+            document.getElementById("cpCode").value = "";
+            document.getElementById("cpDiscount").value = "";
+            document.getElementById("couponModal").classList.add("active");
+        }
+
+        function closeCouponModal() {
+            document.getElementById("couponModal").classList.remove("active");
+        }
+
+        function saveCouponSubmit() {
+            const code = document.getElementById("cpCode").value.trim().toUpperCase();
+            const discount = parseFloat(document.getElementById("cpDiscount").value);
+            const type = document.getElementById("cpType").value;
+            const min = parseFloat(document.getElementById("cpMin").value) || 0;
+
+            localCoupons.push({
+                id: Date.now(),
+                code,
+                discount,
+                type,
+                min,
+                active: true
+            });
+
+            closeCouponModal();
+            renderCouponsTable();
+            showAdminToast("Coupon Created", `Promo code ${code} is now live!`, "success");
+        }
+
+        function toggleCoupon(id) {
+            const c = localCoupons.find(x => x.id === id);
+            if (c) {
+                c.active = !c.active;
+                renderCouponsTable();
+                showAdminToast("Status Changed", `Coupon ${c.code} updated`, "info");
+            }
+        }
+
+        function deleteCoupon(id) {
+            localCoupons = localCoupons.filter(x => x.id !== id);
+            renderCouponsTable();
+            showAdminToast("Deleted", "Coupon removed", "info");
+        }
+    </script>
+</body>
+</html>

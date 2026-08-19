@@ -1,27 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>GadgetWorld</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to GadgetWorld...</title>
+    <script>
+        window.location.href = "Home.html";
+    </script>
 </head>
-
-<body>
-
-<script>
-
-const token = sessionStorage.getItem("token");
-
-if(token){
-
-    window.location.href="pages/Home.html";
-
-}
-else{
-
-    window.location.href="pages/Login.html";
-
-}
-
-</script>
-
+<body style="background: #0B0F19; color: #FFF; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh;">
+    <div style="text-align: center;">
+        <h2 style="margin-bottom: 8px;">Entering GadgetWorld... ⚡</h2>
+        <p style="color: #94A3B8;">Loading AI Recommendation Engine</p>
+    </div>
 </body>
 </html>

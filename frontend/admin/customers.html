@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Directory | GadgetWorld Admin</title>
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <div id="adminSidebarSlot"></div>
+
+    <div class="admin-main">
+        <div id="adminTopbarSlot"></div>
+
+        <div class="admin-body">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+                <div>
+                    <h1 style="font-size: 1.8rem; margin-bottom: 4px;">Customer Directory</h1>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Registered shoppers and accounts stored in PostgreSQL.</p>
+                </div>
+            </div>
+
+            <!-- SEARCH -->
+            <div class="admin-card" style="padding: 16px; margin-bottom: 20px;">
+                <input 
+                    type="text" 
+                    id="adminCustSearch" 
+                    class="form-input" 
+                    placeholder="Search customers by name or email..." 
+                    style="max-width: 380px;"
+                    oninput="debounceCustSearch()"
+                >
+            </div>
+
+            <!-- CUSTOMERS TABLE -->
+            <div class="admin-card">
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminCustomersTbody">
+                            <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Loading customers...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px;" id="custPagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin-core.js"></script>
+    <script>
+        let custPage = 1;
+        let custSearchTimer = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderAdminLayout("customers");
+            loadCustomers();
+        });
+
+        function debounceCustSearch() {
+            clearTimeout(custSearchTimer);
+            custSearchTimer = setTimeout(() => {
+                custPage = 1;
+                loadCustomers();
+            }, 350);
+        }
+
+        async function loadCustomers() {
+            const tbody = document.getElementById("adminCustomersTbody");
+            if (!tbody) return;
+
+            const search = document.getElementById("adminCustSearch")?.value.trim() || "";
+            let url = `/admin/customers?page=${custPage}&limit=15`;
+            if (search) url += `&search=${encodeURIComponent(search)}`;
+
+            try {
+                const res = await adminApi(url);
+                const customers = res.customers || [];
+                const total = res.total || 0;
+
+                if (customers.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 30px;">No customers found.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = customers.map(u => `
+                    <tr>
+                        <td style="color: var(--text-dim); font-weight: 600;">#${u.id}</td>
+                        <td><strong style="color: #FFF;">${u.name}</strong></td>
+                        <td style="color: var(--text-muted);">${u.email}</td>
+                        <td><span class="badge badge-ai">${u.role || 'customer'}</span></td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="deleteCustomerUI(${u.id})">
+                                🗑 Remove
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--accent-rose);">Failed to load customers: ${e.message}</td></tr>`;
+            }
+        }
+
+        async function deleteCustomerUI(userId) {
+            if (!confirm(`Delete customer #${userId}? This will remove all their active sessions.`)) return;
+            try {
+                await adminApi(`/admin/customers/${userId}`, "DELETE");
+                showAdminToast("Customer Removed", "User account removed", "info");
+                loadCustomers();
+            } catch (e) {
+                showAdminToast("Error", e.message, "error");
+            }
+        }
+    </script>
+</body>
+</html>

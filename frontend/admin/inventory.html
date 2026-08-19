@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Matrix | GadgetWorld Admin</title>
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <div id="adminSidebarSlot"></div>
+
+    <div class="admin-main">
+        <div id="adminTopbarSlot"></div>
+
+        <div class="admin-body">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+                <div>
+                    <h1 style="font-size: 1.8rem; margin-bottom: 4px;">Inventory & Stock Matrix</h1>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Monitor warehouse levels, low stock warnings, and execute quick restocks.</p>
+                </div>
+            </div>
+
+            <!-- INVENTORY STATS -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color: var(--accent-emerald);">💰</div>
+                    <div class="kpi-label">Total Inventory Value</div>
+                    <div class="kpi-value" id="invValue">₹0</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color: var(--primary);">✔</div>
+                    <div class="kpi-label">In Stock Items</div>
+                    <div class="kpi-value" id="invInStock">0</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color: var(--accent-amber);">⚡</div>
+                    <div class="kpi-label">Low Stock (≤10)</div>
+                    <div class="kpi-value" id="invLowStock">0</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color: var(--accent-rose);">✖</div>
+                    <div class="kpi-label">Out of Stock</div>
+                    <div class="kpi-value" id="invOutStock" style="color: var(--accent-rose);">0</div>
+                </div>
+            </div>
+
+            <!-- INVENTORY TABLE -->
+            <div class="admin-card">
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Unit Price</th>
+                                <th>Stock Level</th>
+                                <th>Quick Restock</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminInventoryTbody">
+                            <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Loading inventory...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px;" id="invPagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin-core.js"></script>
+    <script>
+        let invPage = 1;
+        const invLimit = 15;
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            renderAdminLayout("inventory");
+            await loadInventoryStats();
+            await loadInventoryTable();
+        });
+
+        async function loadInventoryStats() {
+            try {
+                const stats = await adminApi("/admin/inventory/statistics");
+                document.getElementById("invValue").textContent = formatPrice(stats.inventory_value || 0);
+                document.getElementById("invInStock").textContent = stats.in_stock || 0;
+                document.getElementById("invLowStock").textContent = stats.low_stock || 0;
+                document.getElementById("invOutStock").textContent = stats.out_of_stock || 0;
+            } catch (e) {
+                console.error("Inv stats error:", e);
+            }
+        }
+
+        async function loadInventoryTable() {
+            const tbody = document.getElementById("adminInventoryTbody");
+            if (!tbody) return;
+
+            try {
+                const res = await adminApi(`/admin/inventory?page=${invPage}&limit=${invLimit}`);
+                const items = res.inventory || [];
+                const total = res.total || 0;
+
+                if (items.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 30px;">No inventory items recorded.</td></tr>`;
+                    return;
+                }
+
+                const fallbackImg = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60";
+
+                tbody.innerHTML = items.map(p => {
+                    const inStock = (p.stock || 0) > 0;
+                    const isLow = inStock && (p.stock || 0) <= 10;
+
+                    return `
+                        <tr>
+                            <td style="color: var(--text-dim); font-weight: 600;">#${p.id}</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <img src="${p.image_url || fallbackImg}" class="table-thumb" onerror="this.src='${fallbackImg}'">
+                                    <div style="font-weight: 600; color: #FFF; max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                        ${p.description || p.product_name}
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-category">${p.category || 'General'}</span></td>
+                            <td><strong style="color: #FFF; font-family: 'Outfit';">${formatPrice(p.price)}</strong></td>
+                            <td>
+                                <span class="badge ${!inStock ? 'badge-low-stock' : (isLow ? 'badge-trending' : 'badge-stock')}">
+                                    ${p.stock} units
+                                </span>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 6px;">
+                                    <button class="btn btn-secondary btn-sm" onclick="addStock(${p.id}, 10)">+10</button>
+                                    <button class="btn btn-secondary btn-sm" onclick="addStock(${p.id}, 50)">+50</button>
+                                    <button class="btn btn-primary btn-sm" onclick="setCustomStock(${p.id}, ${p.stock})">✏️ Set</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                renderInvPagination(total);
+            } catch (e) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--accent-rose);">Error: ${e.message}</td></tr>`;
+            }
+        }
+
+        function renderInvPagination(total) {
+            const container = document.getElementById("invPagination");
+            if (!container) return;
+
+            const totalPages = Math.ceil(total / invLimit);
+            if (totalPages <= 1) {
+                container.innerHTML = "";
+                return;
+            }
+
+            container.innerHTML = `
+                <button class="btn btn-secondary btn-sm" ${invPage === 1 ? 'disabled' : ''} onclick="invPage--; loadInventoryTable();">← Prev</button>
+                <span style="font-size: 0.88rem; color: var(--text-muted);">Page ${invPage} of ${totalPages}</span>
+                <button class="btn btn-secondary btn-sm" ${invPage === totalPages ? 'disabled' : ''} onclick="invPage++; loadInventoryTable();">Next →</button>
+            `;
+        }
+
+        async function addStock(productId, delta) {
+            try {
+                const prod = await adminApi(`/admin/products/${productId}`);
+                const newStock = (prod.stock || 0) + delta;
+                await adminApi(`/admin/inventory/${productId}`, "PUT", { stock: newStock });
+                showAdminToast("Restocked", `Added +${delta} units to stock`, "success");
+                loadInventoryStats();
+                loadInventoryTable();
+            } catch (e) {
+                showAdminToast("Error", e.message, "error");
+            }
+        }
+
+        async function setCustomStock(productId, current) {
+            const val = prompt("Enter new total stock count:", current);
+            if (val === null || isNaN(val)) return;
+
+            try {
+                await adminApi(`/admin/inventory/${productId}`, "PUT", { stock: parseInt(val) });
+                showAdminToast("Stock Set", `Inventory set to ${val} units`, "success");
+                loadInventoryStats();
+                loadInventoryTable();
+            } catch (e) {
+                showAdminToast("Error", e.message, "error");
+            }
+        }
+    </script>
+</body>
+</html>

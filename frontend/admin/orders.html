@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Orders Manager | GadgetWorld Admin</title>
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <div id="adminSidebarSlot"></div>
+
+    <div class="admin-main">
+        <div id="adminTopbarSlot"></div>
+
+        <div class="admin-body">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+                <div>
+                    <h1 style="font-size: 1.8rem; margin-bottom: 4px;">Customer Orders Logistics</h1>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Track shipments, update dispatch states, and inspect order line items.</p>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="exportOrdersCSV()">
+                    📥 Export CSV
+                </button>
+            </div>
+
+            <!-- STATUS TABS & SEARCH -->
+            <div class="admin-card" style="padding: 16px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+                <div style="display: flex; gap: 8px;" id="adminOrderStatusPills">
+                    <button class="btn btn-primary btn-sm" onclick="filterAdminOrders('', this)">All</button>
+                    <button class="btn btn-secondary btn-sm" onclick="filterAdminOrders('Placed', this)">Placed</button>
+                    <button class="btn btn-secondary btn-sm" onclick="filterAdminOrders('Processing', this)">Processing</button>
+                    <button class="btn btn-secondary btn-sm" onclick="filterAdminOrders('Shipped', this)">Shipped</button>
+                    <button class="btn btn-secondary btn-sm" onclick="filterAdminOrders('Delivered', this)">Delivered</button>
+                    <button class="btn btn-secondary btn-sm" onclick="filterAdminOrders('Cancelled', this)">Cancelled</button>
+                </div>
+
+                <input 
+                    type="text" 
+                    id="adminOrderSearchInput" 
+                    class="form-input" 
+                    placeholder="Search by customer name..." 
+                    style="width: 240px; font-size: 0.85rem; padding: 6px 12px;"
+                    oninput="debounceAdminOrderSearch()"
+                >
+            </div>
+
+            <!-- ORDERS TABLE -->
+            <div class="admin-card">
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Order Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminOrdersTbody">
+                            <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Loading orders...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px;" id="adminOrderPagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER DETAILS MODAL -->
+    <div id="adminOrderDetailsModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="modal-close" onclick="document.getElementById('adminOrderDetailsModal').classList.remove('active')">✕</button>
+            <h3 style="font-size: 1.3rem; margin-bottom: 16px; color: #FFF;" id="detailOrderTitle">Order Details</h3>
+            <div id="detailOrderBody">
+                <!-- Injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin-core.js"></script>
+    <script src="js/orders.js"></script>
+</body>
+</html>

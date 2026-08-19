@@ -1,1789 +1,213 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
-
-<title>
-
-GadgetWorld | Checkout
-
-</title>
-
-<link
-rel="stylesheet"
-href="../css/style.css"
->
-
-<link
-rel="preconnect"
-href="https://fonts.googleapis.com"
->
-
-<link
-rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin
->
-
-<link
-href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet"
->
-
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
->
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout | GadgetWorld</title>
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
-
 <body>
 
-<!-- ===========================
-            NAVBAR
-=========================== -->
-
-<nav class="navbar">
-
-<div class="logo">
-
-<span style="font-size:34px;">
-
-🛍
-
-</span>
-
-<div>
-
-<h2>
-
-GadgetWorld
-
-</h2>
-
-<small>
-
-Smart Shopping Powered by AI
-
-</small>
-
-</div>
-
-</div>
-
-<div class="nav-links">
-
-<a href="Home.html">
-
-Home
-
-</a>
-
-<a href="Products.html">
-
-Products
-
-</a>
-
-<a href="Wishlist.html">
-
-Wishlist
-
-</a>
-
-<a href="Cart.html">
-
-Cart
-
-</a>
-
-<a href="Orders.html">
-
-Orders
-
-</a>
-
-<a href="Profile.html">
-
-Profile
-
-</a>
-
-<a
-id="analyticsLink"
-href="Analytics.html"
->
-
-Analytics
-
-</a>
-
-</div>
-
-</nav>
-
-<div class="container">
-
-<!-- ===========================
-            HERO
-=========================== -->
-
-<div class="hero">
-
-<span class="badge">
-
-💳 SECURE CHECKOUT
-
-</span>
-
-<br><br>
-
-<h1>
-
-Complete Your
-
-<span style="color:#FFD54F;">
-
-Purchase
-
-</span>
-
-</h1>
-
-<br>
-
-<p>
-
-Your order is almost ready.
-Complete payment securely and
-receive fast delivery.
-
-</p>
-
-</div>
-
-<br>
-
-<!-- ===========================
-        CHECKOUT PROGRESS
-=========================== -->
-
-<div class="stats-grid">
-
-<div class="stat-card">
-
-<h2>
-
-🛒
-
-</h2>
-
-<p>
-
-Cart
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-
-📍
-
-</h2>
-
-<p>
-
-Address
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-
-💳
-
-</h2>
-
-<p>
-
-Payment
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-
-✅
-
-</h2>
-
-<p>
-
-Confirm
-
-</p>
-
-</div>
-
-</div>
-
-<br>
-
-<!-- ===========================
-        ORDER SUMMARY
-=========================== -->
-
-<div class="stats-grid">
-
-<div class="stat-card">
-
-<h2 id="total">
-
-₹0
-
-</h2>
-
-<p>
-
-Total Amount
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-
-🚚
-
-</h2>
-
-<p>
-
-Free Delivery
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-
-🔒
-
-</h2>
-
-<p>
-
-100% Secure
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-
-🤖
-
-</h2>
-
-<p>
-
-AI Discount
-
-</p>
-
-</div>
-
-</div>
-
-<br>
-
-<!-- ===========================
-        DELIVERY ADDRESS
-=========================== -->
-
-<div class="card">
-
-<h2>
-
-📍 Delivery Address
-
-</h2>
-
-<br>
-
-<input
-
-id="address"
-
-placeholder="House No, Street"
-
->
-
-<br><br>
-
-<input
-
-id="city"
-
-placeholder="City"
-
->
-
-<br><br>
-
-<input
-
-id="pincode"
-
-placeholder="Pincode"
-
->
-
-</div>
-
-<br>
-<!-- ===========================
-        PAYMENT METHODS
-=========================== -->
-
-<div class="card">
-
-<h2>
-
-💳 Select Payment Method
-
-</h2>
-
-<br>
-
-<div class="stats-grid">
-
-<div class="stat-card">
-
-<label>
-
-<input
-type="radio"
-name="payment"
-value="Cash On Delivery"
-checked
-onclick="updatePayment(this.value)"
->
-
-🚚 Cash On Delivery
-
-</label>
-
-</div>
-
-<div class="stat-card">
-
-<label>
-
-<input
-type="radio"
-name="payment"
-value="UPI"
-onclick="updatePayment(this.value)"
->
-
-📱 UPI
-
-</label>
-
-</div>
-
-<div class="stat-card">
-
-<label>
-
-<input
-type="radio"
-name="payment"
-value="Credit Card"
-onclick="updatePayment(this.value)"
->
-
-💳 Credit Card
-
-</label>
-
-</div>
-
-<div class="stat-card">
-
-<label>
-
-<input
-type="radio"
-name="payment"
-value="Debit Card"
-onclick="updatePayment(this.value)"
->
-
-🏦 Debit Card
-
-</label>
-
-</div>
-
-</div>
-
-</div>
-
-<br>
-
-<!-- ===========================
-        COUPON SECTION
-=========================== -->
-
-<div class="card">
-
-<h2>
-
-🎁 Apply Coupon
-
-</h2>
-
-<br>
-
-<div
-style="
-display:flex;
-gap:15px;
-flex-wrap:wrap;
-"
->
-
-<input
-
-id="coupon"
-
-placeholder="Enter Coupon Code"
-
-style="flex:1;"
-
->
-
-<button
-
-class="primary-btn"
-
-onclick="applyCoupon()"
-
->
-
-Apply
-
-</button>
-
-</div>
-
-<br>
-
-<p
-id="couponMessage"
-style="
-color:green;
-font-weight:bold;
-"
->
-
-</p>
-
-</div>
-
-<br>
-
-<!-- ===========================
-        AI SAVINGS
-=========================== -->
-
-<div class="hero">
-
-<span class="badge">
-
-🤖 AI Smart Savings
-
-</span>
-
-<br><br>
-
-<h2>
-
-Congratulations!
-
-</h2>
-
-<br>
-
-<p>
-
-Our AI found the best available deal
-for your order.
-
-</p>
-
-<br>
-
-<h1
-style="color:#FFD54F;"
->
-
-You Saved ₹500
-
-</h1>
-
-</div>
-
-<br>
-
-<!-- ===========================
-        DELIVERY DETAILS
-=========================== -->
-
-<div class="card">
-
-<h2>
-
-🚚 Delivery Information
-
-</h2>
-
-<br>
-
-<table>
-
-<tr>
-
-<th>
-
-Estimated Delivery
-
-</th>
-
-<td>
-
-3 - 5 Business Days
-
-</td>
-
-</tr>
-
-<tr>
-
-<th>
-
-Delivery Charges
-
-</th>
-
-<td>
-
-FREE
-
-</td>
-
-</tr>
-
-<tr>
-
-<th>
-
-Packaging
-
-</th>
-
-<td>
-
-Premium Secure Packaging
-
-</td>
-
-</tr>
-
-<tr>
-
-<th>
-
-Tracking
-
-</th>
-
-<td>
-
-Real-Time Tracking Available
-
-</td>
-
-</tr>
-
-</table>
-
-</div>
-
-<br>
-
-<!-- ===========================
-        ORDER SUMMARY
-=========================== -->
-
-<div class="card">
-
-<h2>
-
-📦 Order Summary
-
-</h2>
-
-<br>
-
-<table>
-
-<tr>
-
-<th>
-
-Subtotal
-
-</th>
-
-<td
-id="subtotalText"
->
-
-₹0
-
-</td>
-
-</tr>
-
-<tr>
-
-<th>
-
-Delivery
-
-</th>
-
-<td>
-
-FREE
-
-</td>
-
-</tr>
-
-<tr>
-
-<th>
-
-Discount
-
-</th>
-
-<td
-style="color:green;"
->
-
--₹500
-
-</td>
-
-</tr>
-
-<tr>
-
-<th>
-
-Payment Method
-
-</th>
-
-<td
-id="paymentText"
->
-
-Cash On Delivery
-
-</td>
-
-</tr>
-
-<tr>
-
-<th>
-
-Total Payable
-
-</th>
-
-<td
-id="finalTotal"
-style="
-font-size:22px;
-font-weight:bold;
-color:#2874f0;
-"
->
-
-₹0
-
-</td>
-
-</tr>
-
-</table>
-
-<br>
-
-<button
-
-id="placeBtn"
-
-class="buy-btn"
-
-style="
-width:100%;
-height:55px;
-font-size:18px;
-"
-
-onclick="placeOrder()"
-
->
-
-🛍 Place Secure Order
-
-</button>
-
-</div>
-
-<br>
-
-<!-- ===========================
-        SECURITY
-=========================== -->
-
-<div class="stats-grid">
-
-<div class="stat-card">
-
-<h2>
-
-🔒
-
-</h2>
-
-<p>
-
-256-bit SSL Encryption
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-
-🛡
-
-</h2>
-
-<p>
-
-Safe Payments
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-
-🚚
-
-</h2>
-
-<p>
-
-Fast Delivery
-
-</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-
-💯
-
-</h2>
-
-<p>
-
-100% Genuine Products
-
-</p>
-
-</div>
-
-</div>
-
-<br>
-<!-- ===========================
-        CUSTOMER REVIEWS
-=========================== -->
-
-<h2 class="section-title">
-
-💬 Customer Reviews
-
-</h2>
-
-<div class="stats-grid">
-
-    <div class="stat-card">
-
-        <h2>
-
-            ⭐⭐⭐⭐⭐
-
-        </h2>
-
-        <p>
-
-            Super fast delivery and
-            secure checkout experience.
-
-        </p>
-
-        <br>
-
-        <b>
-
-            — Rahul Sharma
-
-        </b>
-
+    <!-- NAVBAR -->
+    <header class="main-header">
+        <div class="container navbar">
+            <a href="Home.html" class="brand-logo">
+                <div class="brand-icon">⚡</div>
+                <div>
+                    <div class="brand-title">GadgetWorld</div>
+                    <div class="brand-subtitle">AI Powered Shopping</div>
+                </div>
+            </a>
+
+            <nav class="nav-links">
+                <a href="Home.html" class="nav-item">Home</a>
+                <a href="Products.html" class="nav-item">Explore Products</a>
+                <a href="Orders.html" class="nav-item">My Orders</a>
+                <a href="Analytics.html" class="nav-item">Insights</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="Cart.html" class="btn btn-secondary btn-sm">
+                    ← Back to Cart
+                </a>
+                <div id="userNavSlot"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HEADER BANNER -->
+    <div style="background: linear-gradient(180deg, rgba(99, 102, 241, 0.1) 0%, rgba(11, 15, 25, 0) 100%); padding: 30px 0 16px; border-bottom: 1px solid var(--border-glass);">
+        <div class="container">
+            <h1 style="font-size: 2rem; margin-bottom: 4px;">Secure Checkout 🔒</h1>
+            <p style="color: var(--text-muted); font-size: 0.92rem;">Complete your delivery details and choose your preferred payment option.</p>
+        </div>
     </div>
 
-    <div class="stat-card">
-
-        <h2>
-
-            ⭐⭐⭐⭐⭐
-
-        </h2>
-
-        <p>
-
-            AI discount feature helped
-            me save money.
-
-        </p>
-
-        <br>
-
-        <b>
-
-            — Priya Patel
-
-        </b>
-
-    </div>
-
-    <div class="stat-card">
-
-        <h2>
-
-            ⭐⭐⭐⭐⭐
-
-        </h2>
-
-        <p>
-
-            Smooth checkout and
-            genuine products.
-
-        </p>
-
-        <br>
-
-        <b>
-
-            — Aman Verma
-
-        </b>
-
-    </div>
-
-</div>
-
-<br><br>
-
-<!-- ===========================
-        CUSTOMER SUPPORT
-=========================== -->
-
-<div class="hero">
-
-<span class="badge">
-
-🎧 24×7 Customer Support
-
-</span>
-
-<br><br>
-
-<h1>
-
-Need Help?
-
-</h1>
-
-<br>
-
-<p>
-
-Our support team is available
-24×7 to help you with
-payments,
-delivery,
-refunds
-and returns.
-
-</p>
-
-<br>
-
-<div class="btn-group">
-
-<button
-
-class="primary-btn"
-
->
-
-📞 Contact Support
-
-</button>
-
-<button
-
-class="buy-btn"
-
->
-
-💬 Live Chat
-
-</button>
-
-</div>
-
-</div>
-
-<br><br>
-
-<!-- ===========================
-        MOBILE APP
-=========================== -->
-
-<div class="card">
-
-<div
-style="
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-gap:30px;
-"
->
-
-<div>
-
-<h2>
-
-📱 GadgetWorld Mobile App
-
-</h2>
-
-<br>
-
-<p>
-
-Track your orders,
-manage payments,
-receive AI offers
-and exclusive discounts
-from anywhere.
-
-</p>
-
-<br>
-
-<button
-
-class="primary-btn"
-
->
-
-Coming Soon
-
-</button>
-
-</div>
-
-<div
-style="
-font-size:120px;
-"
->
-
-📱
-
-</div>
-
-</div>
-
-</div>
-
-<br><br>
-
-<!-- ===========================
-        NEWSLETTER
-=========================== -->
-
-<div class="hero">
-
-<span class="badge">
-
-📧 Stay Updated
-
-</span>
-
-<br><br>
-
-<h1>
-
-Subscribe To GadgetWorld
-
-</h1>
-
-<br>
-
-<p>
-
-Receive order updates,
-exclusive coupons,
-AI recommendations
-and latest gadget launches.
-
-</p>
-
-<br>
-
-<div class="search-box">
-
-<input
-
-id="newsletterEmail"
-
-type="email"
-
-placeholder="Enter Your Email"
-
->
-
-<button
-
-class="buy-btn"
-
-onclick="subscribeNewsletter()"
-
->
-
-Subscribe
-
-</button>
-
-</div>
-
-</div>
-
-<br><br>
-
-<!-- ===========================
-        FOOTER
-=========================== -->
-
-<footer class="footer">
-
-<div class="stats-grid">
-
-<div>
-
-<h2>
-
-🛍 GadgetWorld
-
-</h2>
-
-<br>
-
-<p>
-
-Smart Shopping Powered by AI
-
-</p>
-
-<p>
-
-India's Trusted Gadget Store
-
-</p>
-
-</div>
-
-<div>
-
-<h3>
-
-Quick Links
-
-</h3>
-
-<br>
-
-<p>
-
-Home
-
-</p>
-
-<p>
-
-Products
-
-</p>
-
-<p>
-
-Cart
-
-</p>
-
-<p>
-
-Orders
-
-</p>
-
-</div>
-
-<div>
-
-<h3>
-
-Customer Care
-
-</h3>
-
-<br>
-
-<p>
-
-Help Center
-
-</p>
-
-<p>
-
-Returns
-
-</p>
-
-<p>
-
-Shipping
-
-</p>
-
-<p>
-
-Privacy Policy
-
-</p>
-
-</div>
-
-<div>
-
-<h3>
-
-Contact
-
-</h3>
-
-<br>
-
-<p>
-
-📧 support@gadgetworld.com
-
-</p>
-
-<p>
-
-📞 +91 9876543210
-
-</p>
-
-<p>
-
-🌍 India
-
-</p>
-
-</div>
-
-</div>
-
-<br>
-
-<hr>
-
-<br>
-
-<p>
-
-© 2026 GadgetWorld.
-All Rights Reserved.
-
-</p>
-
-<p>
-
-Powered by FastAPI,
-PostgreSQL &
-AI Recommendation System.
-
-</p>
-
-</footer>
-
-<script src="../js/api.js"></script>
-
-<script>
+    <!-- MAIN CHECKOUT CONTENT -->
+    <div class="container cart-layout" style="padding-top: 30px;">
         
-        // ==========================================
-// GADGETWORLD CHECKOUT
-// ==========================================
-
-// =============================
-// LOGIN CHECK
-// =============================
-
-if (!localStorage.getItem("token")) {
-
-    window.location.href = "Login.html";
-
-}
-
-// =============================
-// USER DETAILS
-// =============================
-
-const role =
-    localStorage.getItem("role");
-
-const userId =
-    localStorage.getItem("user_id");
-
-// =============================
-// HIDE ANALYTICS
-// =============================
-
-if (role !== "admin") {
-
-    const analytics =
-        document.getElementById(
-            "analyticsLink"
-        );
-
-    if (analytics) {
-
-        analytics.style.display =
-            "none";
-
-    }
-
-}
-
-// =============================
-// ORDER TOTAL
-// =============================
-
-let total =
-    Number(
-        localStorage.getItem(
-            "total"
-        ) || 0
-    );
-
-if (total <= 0) {
-
-    alert(
-        "Your cart is empty."
-    );
-
-    window.location.href =
-        "Cart.html";
-
-}
-
-document.getElementById(
-    "total"
-).innerText =
-    "₹" +
-    total.toLocaleString();
-
-document.getElementById(
-    "subtotalText"
-).innerText =
-    "₹" +
-    total.toLocaleString();
-
-document.getElementById(
-    "finalTotal"
-).innerText =
-    "₹" +
-    Math.max(total - 500, 0)
-        .toLocaleString();
-
-// =============================
-// PAYMENT METHOD
-// =============================
-
-let paymentMethod =
-    "Cash On Delivery";
-
-function updatePayment(value) {
-
-    paymentMethod =
-        value;
-
-    document.getElementById(
-        "paymentText"
-    ).innerText =
-        value;
-
-}
-
-// =============================
-// APPLY COUPON
-// =============================
-
-function applyCoupon() {
-
-    const coupon =
-        document.getElementById(
-            "coupon"
-        )
-        .value
-        .trim()
-        .toUpperCase();
-
-    if (coupon === "") {
-
-        alert(
-            "Enter coupon code."
-        );
-
-        return;
-
-    }
-
-    if (
-
-        coupon === "GADGET500"
-
-    ) {
-
-        document.getElementById(
-            "couponMessage"
-        ).innerHTML =
-
-            "✅ Coupon Applied Successfully";
-
-        total =
-            Math.max(total - 500, 0);
-
-    }
-
-    else if (
-
-        coupon === "WELCOME10"
-
-    ) {
-
-        document.getElementById(
-            "couponMessage"
-        ).innerHTML =
-
-            "✅ Welcome Discount Applied";
-
-        total =
-            Math.max(total - 300, 0);
-
-    }
-
-    else {
-
-        document.getElementById(
-            "couponMessage"
-        ).style.color = "red";
-
-        document.getElementById(
-            "couponMessage"
-        ).innerHTML =
-
-            "❌ Invalid Coupon";
-
-        return;
-
-    }
-
-    document.getElementById(
-        "total"
-    ).innerText =
-        "₹" +
-        total.toLocaleString();
-
-    document.getElementById(
-        "subtotalText"
-    ).innerText =
-        "₹" +
-        total.toLocaleString();
-
-    document.getElementById(
-        "finalTotal"
-    ).innerText =
-        "₹" +
-        total.toLocaleString();
-
-}
-
-// =============================
-// NEWSLETTER
-// =============================
-
-function subscribeNewsletter() {
-
-    const email =
-        document.getElementById(
-            "newsletterEmail"
-        )
-        .value
-        .trim();
-
-    if (email === "") {
-
-        alert(
-            "Please enter email."
-        );
-
-        return;
-
-    }
-
-    alert(
-        "🎉 Thank you for subscribing!"
-    );
-
-    document.getElementById(
-        "newsletterEmail"
-    ).value = "";
-
-}
-
-// =============================
-// PLACE ORDER
-// =============================
-
-async function placeOrder() {
-
-    const address =
-        document.getElementById(
-            "address"
-        ).value.trim();
-
-    const city =
-        document.getElementById(
-            "city"
-        ).value.trim();
-
-    const pincode =
-        document.getElementById(
-            "pincode"
-        ).value.trim();
-
-    if (
-
-        address === "" ||
-
-        city === "" ||
-
-        pincode === ""
-
-    ) {
-
-        alert(
-            "Please fill all address details."
-        );
-
-        return;
-
-    }
-
-    if (
-
-        pincode.length !== 6 ||
-
-        isNaN(pincode)
-
-    ) {
-
-        alert(
-            "Enter valid pincode."
-        );
-
-        return;
-
-    }
-
-    const button =
-        document.getElementById(
-            "placeBtn"
-        );
-
-    button.disabled = true;
-
-    button.innerHTML =
-
-        `<i class="fa-solid fa-spinner fa-spin"></i> Placing Order...`;
-
-    try {
-
-        await apiRequest(
-
-            `/orders/?user_id=${userId}&total_amount=${total}`,
-
-            "POST"
-
-        );
-                // =============================
-        // SAVE ORDER DETAILS
-        // =============================
-
-        localStorage.setItem(
-
-            "address",
-
-            address
-
-        );
-
-        localStorage.setItem(
-
-            "city",
-
-            city
-
-        );
-
-        localStorage.setItem(
-
-            "pincode",
-
-            pincode
-
-        );
-
-        localStorage.setItem(
-
-            "payment_method",
-
-            paymentMethod
-
-        );
-
-        // =============================
-        // CLEAR CART DATA
-        // =============================
-
-        localStorage.removeItem(
-
-            "buy_product"
-
-        );
-
-        localStorage.removeItem(
-
-            "total"
-
-        );
-
-        localStorage.removeItem(
-
-            "cart"
-
-        );
-
-        // =============================
-        // SUCCESS MESSAGE
-        // =============================
-
-        alert(
-
-`🎉 Order Placed Successfully!
-
-Thank you for shopping with GadgetWorld.
-
-Estimated Delivery:
-3 - 5 Business Days.
-
-Happy Shopping! 🛍`
-
-        );
-
-        window.location.href =
-
-            "Orders.html";
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        alert(
-
-            error.message ||
-
-            "Unable to place order."
-
-        );
-
-    }
-
-    finally {
-
-        button.disabled = false;
-
-        button.innerHTML =
-
-            "🛍 Place Secure Order";
-
-    }
-
-}
-
-// =============================
-// AUTO FILL SAVED ADDRESS
-// =============================
-
-window.addEventListener(
-
-    "DOMContentLoaded",
-
-    function () {
-
-        document.getElementById(
-            "address"
-        ).value =
-
-            localStorage.getItem(
-                "address"
-            ) || "";
-
-        document.getElementById(
-            "city"
-        ).value =
-
-            localStorage.getItem(
-                "city"
-            ) || "";
-
-        document.getElementById(
-            "pincode"
-        ).value =
-
-            localStorage.getItem(
-                "pincode"
-            ) || "";
-
-    }
-
-);
-
-// =============================
-// PREVENT BACK AFTER ORDER
-// =============================
-
-window.history.pushState(
-
-    null,
-
-    "",
-
-    window.location.href
-
-);
-
-window.onpopstate = function () {
-
-    window.history.pushState(
-
-        null,
-
-        "",
-
-        window.location.href
-
-    );
-
-};
-
-</script>
-
+        <!-- LEFT: ADDRESS & PAYMENT FORMS -->
+        <div>
+            <!-- STEP 1: SHIPPING ADDRESS -->
+            <div class="glass-panel" style="padding: 28px; margin-bottom: 24px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                    <div style="width: 32px; height: 32px; border-radius: var(--radius-full); background: var(--primary); color: #FFF; display: flex; align-items: center; justify-content: center; font-weight: 700;">1</div>
+                    <h3 style="font-size: 1.2rem; color: #FFF;">Shipping & Delivery Details</h3>
+                </div>
+
+                <form id="checkoutForm" onsubmit="event.preventDefault(); placeFinalOrder();">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" id="custName" class="form-input" required placeholder="Piyush Sharma">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" id="custPhone" class="form-input" required placeholder="+91 98765 43210">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email Address *</label>
+                        <input type="email" id="custEmail" class="form-input" required placeholder="piyush@gmail.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Street Address & Landmark *</label>
+                        <input type="text" id="custAddress" class="form-input" required placeholder="Flat 402, Skyline Towers, Sector 62">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label">City *</label>
+                            <input type="text" id="custCity" class="form-input" required placeholder="Mumbai">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">State *</label>
+                            <input type="text" id="custState" class="form-input" required placeholder="Maharashtra">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">PIN Code *</label>
+                            <input type="text" id="custPin" class="form-input" required placeholder="400001">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- STEP 2: PAYMENT METHOD -->
+            <div class="glass-panel" style="padding: 28px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                    <div style="width: 32px; height: 32px; border-radius: var(--radius-full); background: var(--primary); color: #FFF; display: flex; align-items: center; justify-content: center; font-weight: 700;">2</div>
+                    <h3 style="font-size: 1.2rem; color: #FFF;">Select Payment Method</h3>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 14px;">
+                    <label class="glass-panel" style="display: flex; align-items: center; gap: 16px; padding: 18px; cursor: pointer; border-color: var(--primary);">
+                        <input type="radio" name="payMethod" value="Cash on Delivery" checked style="accent-color: var(--primary); width: 18px; height: 18px;">
+                        <div>
+                            <div style="font-weight: 700; color: #FFF;">💵 Cash on Delivery (COD)</div>
+                            <div style="font-size: 0.84rem; color: var(--text-muted);">Pay with cash or UPI upon delivery at your doorstep.</div>
+                        </div>
+                    </label>
+
+                    <label class="glass-panel" style="display: flex; align-items: center; gap: 16px; padding: 18px; cursor: pointer;">
+                        <input type="radio" name="payMethod" value="Instant UPI" style="accent-color: var(--primary); width: 18px; height: 18px;">
+                        <div>
+                            <div style="font-weight: 700; color: #FFF;">⚡ UPI / QR Code Instant Pay</div>
+                            <div style="font-size: 0.84rem; color: var(--text-muted);">Google Pay, PhonePe, Paytm, BHIM UPI.</div>
+                        </div>
+                    </label>
+
+                    <label class="glass-panel" style="display: flex; align-items: center; gap: 16px; padding: 18px; cursor: pointer;">
+                        <input type="radio" name="payMethod" value="Credit/Debit Card" style="accent-color: var(--primary); width: 18px; height: 18px;">
+                        <div>
+                            <div style="font-weight: 700; color: #FFF;">💳 Credit / Debit Card</div>
+                            <div style="font-size: 0.84rem; color: var(--text-muted);">Visa, MasterCard, RuPay, American Express.</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: ORDER REVIEW -->
+        <div>
+            <div class="summary-card">
+                <h3 style="font-size: 1.25rem; margin-bottom: 20px; color: #FFF;">Order Review</h3>
+
+                <div id="checkoutItemsList" style="max-height: 240px; overflow-y: auto; margin-bottom: 20px; padding-right: 6px;">
+                    <!-- Injected dynamically -->
+                </div>
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="coSubtotal" style="color: #FFF; font-weight: 600;">₹0</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Tax (18% GST)</span>
+                    <span id="coTax" style="color: #FFF; font-weight: 600;">₹0</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span id="coShipping" style="color: var(--accent-emerald); font-weight: 600;">FREE</span>
+                </div>
+
+                <div class="summary-row" id="coDiscountRow" style="display: none; color: var(--accent-cyan);">
+                    <span>Discount</span>
+                    <span id="coDiscount">-₹0</span>
+                </div>
+
+                <div class="summary-row total">
+                    <span>Final Payable</span>
+                    <span id="coTotal" style="color: var(--primary);">₹0</span>
+                </div>
+
+                <button class="btn btn-primary btn-lg" id="placeOrderBtn" style="width: 100%; margin-top: 24px;" onclick="placeFinalOrder()">
+                    Confirm & Place Order ⚡
+                </button>
+
+                <div style="text-align: center; margin-top: 14px; font-size: 0.82rem; color: var(--text-muted);">
+                    By placing order you agree to our Terms of Sale.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div id="orderSuccessModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 540px; text-align: center; padding: 40px 30px;">
+            <div style="font-size: 4.5rem; margin-bottom: 16px;">🎉</div>
+            <h2 style="font-size: 1.8rem; margin-bottom: 8px; color: #FFF;">Order Placed Successfully!</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;" id="orderSuccessMsg">
+                Your order has been recorded in PostgreSQL and dispatched to inventory.
+            </p>
+
+            <div class="glass-panel" style="padding: 16px; margin-bottom: 24px; text-align: left;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <span style="color: var(--text-muted); font-size: 0.88rem;">Order Number:</span>
+                    <span style="font-weight: 700; color: var(--primary);" id="successOrderNum">ORD-00000</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted); font-size: 0.88rem;">Amount Paid:</span>
+                    <span style="font-weight: 700; color: #FFF;" id="successOrderAmount">₹0</span>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <a href="Orders.html" class="btn btn-primary">
+                    View My Orders 📦
+                </a>
+                <a href="Home.html" class="btn btn-secondary">
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/core.js?v=3.5"></script>
+    <script src="../js/checkout.js?v=3.5"></script>
 </body>
-
 </html>

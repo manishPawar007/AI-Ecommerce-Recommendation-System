@@ -1,0 +1,503 @@
+/* ==========================================
+            SIDEBAR
+========================================== */
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:var(--sidebar-width);
+
+    height:100vh;
+
+    background:var(--dark);
+
+    color:#fff;
+
+    overflow-y:auto;
+
+    overflow-x:hidden;
+
+    transition:.3s;
+
+    z-index:1000;
+
+}
+
+/* ==========================================
+            LOGO
+========================================== */
+
+.logo{
+
+    padding:30px 20px;
+
+    text-align:center;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.logo h3{
+
+    font-size:26px;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+
+    color:#fff;
+
+}
+
+.logo small{
+
+    color:#bdbdbd;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
+}
+
+/* ==========================================
+            MENU
+========================================== */
+
+.sidebar-menu{
+
+    list-style:none;
+
+    margin:25px 0;
+
+    padding:0;
+
+}
+
+.sidebar-menu li{
+
+    margin:6px 12px;
+
+}
+
+.sidebar-menu li a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    color:#d1d5db;
+
+    font-size:15px;
+
+    font-weight:500;
+
+    transition:.3s;
+
+}
+
+.sidebar-menu li a i{
+
+    font-size:20px;
+
+    width:24px;
+
+    text-align:center;
+
+}
+
+/* ==========================================
+            HOVER
+========================================== */
+
+.sidebar-menu li a:hover{
+
+    background:rgba(255,255,255,.08);
+
+    color:#fff;
+
+    transform:translateX(6px);
+
+}
+
+/* ==========================================
+            ACTIVE
+========================================== */
+
+.sidebar-menu li.active a{
+
+    background:var(--primary);
+
+    color:#fff;
+
+    box-shadow:0 10px 20px rgba(37,99,235,.35);
+
+}
+
+/* ==========================================
+            DIVIDER
+========================================== */
+
+.sidebar-divider{
+
+    margin:18px 20px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+/* ==========================================
+            SCROLLBAR
+========================================== */
+
+.sidebar::-webkit-scrollbar{
+
+    width:6px;
+
+}
+
+.sidebar::-webkit-scrollbar-track{
+
+    background:transparent;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:rgba(255,255,255,.20);
+
+    border-radius:20px;
+
+}
+
+/* ==========================================
+        USER PROFILE
+========================================== */
+
+.sidebar-profile{
+
+    position:absolute;
+
+    bottom:0;
+
+    left:0;
+
+    width:100%;
+
+    padding:18px;
+
+    background:rgba(255,255,255,.05);
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+.sidebar-profile img{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.sidebar-profile h6{
+
+    margin:0;
+
+    color:#fff;
+
+}
+
+.sidebar-profile small{
+
+    color:#bdbdbd;
+
+}
+/* ==========================================
+            COLLAPSED SIDEBAR
+========================================== */
+
+.sidebar.collapsed{
+
+    width:80px;
+
+}
+
+.sidebar.collapsed .logo h3,
+.sidebar.collapsed .logo small,
+.sidebar.collapsed .sidebar-menu li a span,
+.sidebar.collapsed .sidebar-profile .user-info{
+
+    display:none;
+
+}
+
+.sidebar.collapsed .sidebar-menu li a{
+
+    justify-content:center;
+
+    padding:16px;
+
+}
+
+.sidebar.collapsed .sidebar-menu li a i{
+
+    margin:0;
+
+    font-size:22px;
+
+}
+
+.sidebar.collapsed + .main-content{
+
+    margin-left:80px;
+
+}
+
+/* ==========================================
+            SIDEBAR TOGGLE
+========================================== */
+
+.sidebar-toggle{
+
+    width:45px;
+
+    height:45px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:var(--primary);
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.sidebar-toggle:hover{
+
+    background:var(--primary-dark);
+
+    transform:scale(1.05);
+
+}
+
+/* ==========================================
+            OVERLAY
+========================================== */
+
+.sidebar-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.3s;
+
+    z-index:999;
+
+}
+
+.sidebar-overlay.active{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+/* ==========================================
+            MENU SECTION TITLE
+========================================== */
+
+.menu-title{
+
+    color:#9ca3af;
+
+    font-size:12px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+    padding:15px 22px 8px;
+
+    font-weight:600;
+
+}
+
+/* ==========================================
+            MENU BADGE
+========================================== */
+
+.menu-badge{
+
+    margin-left:auto;
+
+    background:#ef4444;
+
+    color:#fff;
+
+    padding:2px 8px;
+
+    border-radius:20px;
+
+    font-size:11px;
+
+}
+
+/* ==========================================
+            SIDEBAR FOOTER
+========================================== */
+
+.sidebar-footer{
+
+    padding:15px;
+
+    text-align:center;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    color:#9ca3af;
+
+    font-size:12px;
+
+}
+
+/* ==========================================
+            MOBILE
+========================================== */
+
+@media (max-width:992px){
+
+    .sidebar{
+
+        left:-100%;
+
+    }
+
+    .sidebar.active{
+
+        left:0;
+
+    }
+
+    .main-content{
+
+        margin-left:0;
+
+    }
+
+}
+
+/* ==========================================
+            SMALL DEVICES
+========================================== */
+
+@media (max-width:576px){
+
+    .sidebar{
+
+        width:260px;
+
+    }
+
+    .logo{
+
+        padding:20px;
+
+    }
+
+    .sidebar-menu li a{
+
+        padding:12px 15px;
+
+        font-size:14px;
+
+    }
+
+}
+
+/* ==========================================
+            ANIMATIONS
+========================================== */
+
+@keyframes slideSidebar{
+
+    from{
+
+        left:-280px;
+
+    }
+
+    to{
+
+        left:0;
+
+    }
+
+}
+
+.sidebar.active{
+
+    animation:slideSidebar .3s ease;
+
+}
+
+/* ==========================================
+            ICON EFFECT
+========================================== */
+
+.sidebar-menu li a:hover i{
+
+    transform:rotate(-8deg) scale(1.1);
+
+    transition:.3s;
+
+}
+
+/* ==========================================
+            PROFILE HOVER
+========================================== */
+
+.sidebar-profile{
+
+    transition:.3s;
+
+}
+
+.sidebar-profile:hover{
+
+    background:rgba(255,255,255,.08);
+
+}

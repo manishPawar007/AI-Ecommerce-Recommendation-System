@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reviews Moderation | GadgetWorld Admin</title>
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <div id="adminSidebarSlot"></div>
+
+    <div class="admin-main">
+        <div id="adminTopbarSlot"></div>
+
+        <div class="admin-body">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+                <div>
+                    <h1 style="font-size: 1.8rem; margin-bottom: 4px;">Customer Reviews & Ratings</h1>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Moderate verified customer feedback, feedback ratings, and testimonials.</p>
+                </div>
+            </div>
+
+            <!-- REVIEWS TABLE -->
+            <div class="admin-card">
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Customer</th>
+                                <th>Rating</th>
+                                <th>Comment</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviewsTbody">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin-core.js"></script>
+    <script>
+        let demoReviews = [
+            { id: 1, product: "Foldable Flip Smartphone 5G", customer: "Piyush", rating: 5, comment: "Incredible display clarity and high-speed multi-tasking! Fast delivery.", status: "Approved" },
+            { id: 2, product: "HP Envy Ultraportable Laptop", customer: "Yash", rating: 5, comment: "Battery backup lasts full day, keyboard feel is unmatched.", status: "Approved" },
+            { id: 3, product: "Noise-Cancelling Studio Headset", customer: "Manish", rating: 4, comment: "Great bass and spatial audio, very comfortable earcups.", status: "Approved" }
+        ];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderAdminLayout("reviews");
+            renderReviewsTable();
+        });
+
+        function renderReviewsTable() {
+            const tbody = document.getElementById("reviewsTbody");
+            if (!tbody) return;
+
+            tbody.innerHTML = demoReviews.map(r => `
+                <tr>
+                    <td><strong style="color: #FFF;">${r.product}</strong></td>
+                    <td>${r.customer}</td>
+                    <td><span style="color: #FCD34D; font-weight: 700;">⭐ ${r.rating}.0</span></td>
+                    <td style="color: var(--text-muted); max-width: 320px;">"${r.comment}"</td>
+                    <td><span class="badge badge-stock">${r.status}</span></td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="removeReview(${r.id})">
+                            🗑 Delete
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function removeReview(id) {
+            demoReviews = demoReviews.filter(x => x.id !== id);
+            renderReviewsTable();
+            showAdminToast("Review Removed", "Review deleted from store.", "info");
+        }
+    </script>
+</body>
+</html>

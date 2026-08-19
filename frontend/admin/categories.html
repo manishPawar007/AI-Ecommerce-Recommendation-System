@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories Manager | GadgetWorld Admin</title>
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <div id="adminSidebarSlot"></div>
+
+    <div class="admin-main">
+        <div id="adminTopbarSlot"></div>
+
+        <div class="admin-body">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+                <div>
+                    <h1 style="font-size: 1.8rem; margin-bottom: 4px;">Category Directory</h1>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Organize product groupings and navigation structures.</p>
+                </div>
+                <button class="btn btn-primary" onclick="openAddCategoryModal()">
+                    + Add New Category
+                </button>
+            </div>
+
+            <!-- CATEGORIES TABLE -->
+            <div class="admin-card">
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Category Name</th>
+                                <th>Description</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminCategoriesTbody">
+                            <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Loading categories...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORY MODAL -->
+    <div id="catModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 480px;">
+            <button class="modal-close" onclick="closeCatModal()">✕</button>
+            <h3 style="font-size: 1.3rem; margin-bottom: 18px; color: #FFF;" id="catModalTitle">Add Category</h3>
+            
+            <form onsubmit="event.preventDefault(); saveCategorySubmit();">
+                <input type="hidden" id="editCatId">
+
+                <div class="form-group">
+                    <label class="form-label">Category Name *</label>
+                    <input type="text" id="catNameInput" class="form-input" required placeholder="e.g. Smart Watches">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea id="catDescInput" class="form-input" rows="3" placeholder="Wearables, fitness trackers, and smart chronographs."></textarea>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeCatModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Category ✔</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin-core.js"></script>
+    <script src="js/categories.js"></script>
+</body>
+</html>

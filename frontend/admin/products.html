@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Catalog Manager | GadgetWorld Admin</title>
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <div id="adminSidebarSlot"></div>
+
+    <div class="admin-main">
+        <div id="adminTopbarSlot"></div>
+
+        <div class="admin-body">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+                <div>
+                    <h1 style="font-size: 1.8rem; margin-bottom: 4px;">Products Catalog</h1>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Manage, add, edit, and restock products in PostgreSQL.</p>
+                </div>
+                <button class="btn btn-primary" onclick="openAddProductModal()">
+                    + Add New Product
+                </button>
+            </div>
+
+            <!-- SEARCH & FILTERS -->
+            <div class="admin-card" style="padding: 16px; margin-bottom: 20px; display: flex; gap: 16px; flex-wrap: wrap;">
+                <input 
+                    type="text" 
+                    id="adminProductSearch" 
+                    class="form-input" 
+                    placeholder="Search by title..." 
+                    style="flex: 1; min-width: 200px;"
+                    oninput="debounceAdminSearch()"
+                >
+                <select id="adminCategorySelect" class="form-input" style="width: auto;" onchange="loadAdminProducts()">
+                    <option value="">All Categories</option>
+                </select>
+            </div>
+
+            <!-- PRODUCTS TABLE -->
+            <div class="admin-card">
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsTbody">
+                            <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Loading catalog...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px;" id="adminPagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD / EDIT PRODUCT MODAL -->
+    <div id="productModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 580px;">
+            <button class="modal-close" onclick="closeProductModal()">✕</button>
+            <h3 style="font-size: 1.3rem; margin-bottom: 20px; color: #FFF;" id="modalTitle">Add New Product</h3>
+            
+            <form id="productForm" onsubmit="event.preventDefault(); saveProductSubmit();">
+                <input type="hidden" id="editProductId">
+
+                <div class="form-group">
+                    <label class="form-label">Product Name / Description *</label>
+                    <textarea id="prodDesc" class="form-input" required rows="3" placeholder="e.g. Flagship Noise-Cancelling Spatial Headphones with Hi-Res Audio"></textarea>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">Category *</label>
+                        <select id="prodCat" class="form-input" required>
+                            <option value="Mobiles">Mobiles</option>
+                            <option value="Laptops">Laptops</option>
+                            <option value="Headphones">Headphones</option>
+                            <option value="Smart Watches">Smart Watches</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Accessories">Accessories</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Price (INR) *</label>
+                        <input type="number" id="prodPrice" class="form-input" required min="1" step="0.01" placeholder="4999">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">Initial Stock *</label>
+                        <input type="number" id="prodStock" class="form-input" required min="0" value="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Image URL</label>
+                        <input type="url" id="prodImage" class="form-input" placeholder="https://images.unsplash.com/...">
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveProdBtn">Save Product ✔</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin-core.js"></script>
+    <script src="js/products.js"></script>
+</body>
+</html>

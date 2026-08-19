@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Dashboard | GadgetWorld Admin</title>
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- SIDEBAR SLOT -->
+    <div id="adminSidebarSlot"></div>
+
+    <!-- MAIN WRAPPER -->
+    <div class="admin-main">
+        <div id="adminTopbarSlot"></div>
+
+        <div class="admin-body">
+            
+            <!-- HEADER -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 26px;">
+                <div>
+                    <h1 style="font-size: 1.8rem; margin-bottom: 4px;">Executive Dashboard</h1>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Real-time business performance from PostgreSQL database.</p>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <a href="products.html" class="btn btn-primary btn-sm">+ Add New Product</a>
+                    <button class="btn btn-secondary btn-sm" onclick="loadDashboardData()">🔄 Refresh</button>
+                </div>
+            </div>
+
+            <!-- KPI STATS CARDS -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color: var(--accent-emerald);">💵</div>
+                    <div class="kpi-label">Total Revenue</div>
+                    <div class="kpi-value" id="kpiRevenue">₹0</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color: var(--primary);">📦</div>
+                    <div class="kpi-label">Total Orders</div>
+                    <div class="kpi-value" id="kpiOrders">0</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color: var(--accent-cyan);">👥</div>
+                    <div class="kpi-label">Active Customers</div>
+                    <div class="kpi-value" id="kpiCustomers">0</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color: var(--accent-amber);">🛍️</div>
+                    <div class="kpi-label">Live Products</div>
+                    <div class="kpi-value" id="kpiProducts">0</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color: var(--accent-rose);">⚡</div>
+                    <div class="kpi-label">Low Stock Alerts</div>
+                    <div class="kpi-value" id="kpiLowStock" style="color: var(--accent-rose);">0</div>
+                </div>
+            </div>
+
+            <!-- CHARTS ROW -->
+            <div style="display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 24px; margin-bottom: 30px;">
+                <div class="admin-card">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 16px; color: #FFF;">📈 Revenue Trend Over Time</h3>
+                    <div style="height: 280px; position: relative;">
+                        <canvas id="adminRevenueChart"></canvas>
+                    </div>
+                </div>
+                <div class="admin-card">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 16px; color: #FFF;">📊 Order Status Distribution</h3>
+                    <div style="height: 280px; position: relative;">
+                        <canvas id="adminOrderStatusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RECENT ORDERS & LOW STOCK WIDGETS -->
+            <div style="display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 24px;">
+                
+                <!-- RECENT ORDERS TABLE -->
+                <div class="admin-card">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+                        <h3 style="font-size: 1.15rem; color: #FFF;">Recent Customer Orders</h3>
+                        <a href="orders.html" class="btn btn-secondary btn-sm">View All Orders →</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentOrdersTbody">
+                                <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Loading orders...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- LOW STOCK MONITOR -->
+                <div class="admin-card">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+                        <h3 style="font-size: 1.15rem; color: #FFF;">⚡ Low Stock Warning</h3>
+                        <a href="inventory.html" class="btn btn-secondary btn-sm">Manage Inventory →</a>
+                    </div>
+                    <div id="lowStockList" style="display: flex; flex-direction: column; gap: 12px;">
+                        <!-- Injected dynamically -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin-core.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
