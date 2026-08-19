@@ -84,20 +84,6 @@ The system delivers a personalized shopping experience with real-time product di
 
 ---
 
-## 🔑 Quick Evaluation Logins
-
-You can test the system using the pre-configured 1-click login buttons on the **[Login Page](frontend/pages/Login.html)**:
-
-| Role | Email Address | Password | Landing Page |
-| :--- | :--- | :--- | :--- |
-| **👑 Admin** | `manish07@gmail.com` | `admin123` | Executive Admin Dashboard (`/admin/dashboard.html`) |
-| **👤 Customer Demo 1** | `piyush@gmail.com` | `password123` | Customer Storefront (`/pages/Home.html`) |
-| **👤 Customer Demo 2** | `vedant@gmail.com` | `password123` | Customer Storefront (`/pages/Home.html`) |
-| **👤 Customer Demo 3** | `yash@gmail.com` | `password123` | Customer Storefront (`/pages/Home.html`) |
-| **✨ Any New User** | `your_email@example.com` | `any_password` | Auto-Provisioned Customer Account |
-
----
-
 ## 📁 Repository Structure
 
 ```
