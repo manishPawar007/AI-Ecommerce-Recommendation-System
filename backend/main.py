@@ -5,8 +5,11 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy import inspect, text
 from pathlib import Path
 
-from database import engine
-from models import Base
+import pandas as pd
+
+from database import engine, SessionLocal
+from models import Base, User, Product, Category
+from auth import hash_password
 
 from routers.auth import router as auth_router
 from routers.products import router as product_router

@@ -62,6 +62,8 @@ async function loadCategoryFilters() {
     const container = document.getElementById("categoryFilterList");
     if (!container) return;
 
+async function loadCatalog() {
+    const grid = document.getElementById("catalog-grid");
     try {
         const categories = await apiRequest("/products/categories/list");
         const optionsHTML = categories.map(cat => `

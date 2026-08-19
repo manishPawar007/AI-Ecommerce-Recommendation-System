@@ -17,10 +17,11 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
+    role: Optional[str] = "customer"
 
 
 class UserLogin(BaseModel):
-    email: EmailStr
+    email: str
     password: str
 
 

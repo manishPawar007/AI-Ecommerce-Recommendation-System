@@ -139,6 +139,22 @@ class Product(Base):
         index=True
     )
 
+    product_name = Column(
+        String(255),
+        nullable=True,
+        index=True
+    )
+
+    brand = Column(
+        String(100),
+        nullable=True
+    )
+
+    rating = Column(
+        Float,
+        default=4.5
+    )
+
     description = Column(
         String(500),
         nullable=False,
@@ -165,6 +181,7 @@ class Product(Base):
         String(500),
         nullable=True
     )
+
 
     carts = relationship(
         "Cart",

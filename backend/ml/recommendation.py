@@ -45,6 +45,9 @@ COMPLEMENTARY_MAP = {
     "Accessories": ["Accessories"]
 }
 
+vectorizer = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
+tfidf_matrix = vectorizer.fit_transform(products_df["combined_features"])
+similarity_matrix = cosine_similarity(tfidf_matrix)
 
 def _extract_brand(text: str) -> str:
     """Extract known brand from product description or name."""
@@ -56,6 +59,25 @@ def _extract_brand(text: str) -> str:
             return b
     return "Generic"
 
+def format_product_dict(row, extra_info=None):
+    score = extra_info.get("similarity", extra_info.get("score", 0.8)) if extra_info else 0.8
+    match_pct = calculate_ai_match_pct(score)
+    
+    data = {
+        "id": int(row["id"]),
+        "product_name": str(row["product_name"]),
+        "brand": str(row["brand"]),
+        "category": str(row["category"]),
+        "description": str(row["description"]),
+        "price": float(row["price"]),
+        "rating": float(row["rating"]),
+        "stock": int(row["stock"]),
+        "image_url": str(row["image_url"]),
+        "ai_match_pct": match_pct
+    }
+    if extra_info:
+        data.update(extra_info)
+    return data
 
 def get_product_data(db=None) -> pd.DataFrame:
     """Fetch product records from PostgreSQL DB with latest prices and clean text."""
@@ -357,6 +379,27 @@ def recommend_products(
 
     return [_format_product(df.iloc[idx], sc, reas) for idx, sc, reas in scored_candidates]
 
+# =========================================================
+# 2. FREQUENTLY BOUGHT TOGETHER (CROSS-CATEGORY ASSOCIATION)
+# =========================================================
+def bought_together(identifier, top_n=3):
+    """
+    Recommends complementary accessories/products (Cross-category)
+    E.g. Mobile -> Charger + Cable + Earbuds
+    Laptop -> Mouse + Keyboard + USB Hub
+    """
+    target_row = None
+    if isinstance(identifier, int) or (isinstance(identifier, str) and str(identifier).isdigit()):
+        pid = int(identifier)
+        matches = products_df[products_df["id"] == pid]
+        if not matches.empty:
+            target_row = matches.iloc[0]
+            
+    if target_row is None:
+        name_str = str(identifier).lower()
+        matches = products_df[products_df["product_name"].str.lower().str.contains(name_str, na=False)]
+        if not matches.empty:
+            target_row = matches.iloc[0]
 
 def user_persona_insights(user_id: int, db=None) -> Dict[str, Any]:
     """
@@ -585,6 +628,15 @@ def personalized_recommendations(
 
     return results
 
+    bundle = []
+    for kw in desired_keywords:
+        matches = products_df[products_df["product_name"].str.lower().str.contains(kw, na=False)]
+        for _, row in matches.iterrows():
+            if int(row["id"]) != int(target_row["id"]) and int(row["id"]) not in [b["id"] for b in bundle]:
+                bundle.append(format_product_dict(row, {"reason": f"Pairs great with {target_row['product_name'][:20]}"}))
+                break
+        if len(bundle) >= top_n:
+            break
 
 def bought_together(
     product_identifier: Any,

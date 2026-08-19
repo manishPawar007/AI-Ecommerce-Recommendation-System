@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "public": true,
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/frontend/pages/Home.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/frontend/admin/dashboard.html"
+    }
+  ]
+}

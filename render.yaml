@@ -1,11 +1,18 @@
 services:
   - type: web
-    name: gadgetworld-api
-
-    runtime: python
-
+    name: gadgetworld-backend-api
+    env: python
+    region: singapore
     buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: PYTHONPATH
+        value: backend:.
 
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-
-    autoDeploy: true
+  - type: web
+    name: gadgetworld-frontend
+    env: static
+    buildCommand: ""
+    staticPublishPath: ./frontend

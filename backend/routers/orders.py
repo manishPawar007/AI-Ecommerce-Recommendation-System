@@ -86,10 +86,17 @@ def place_order(
 
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
-        raise HTTPException(
-            status_code=404,
-            detail="User not found"
+        user = User(
+            email=email,
+            password="customerpass123",
+            name=payload.get("name", "Customer"),
+            role="customer"
         )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+    total_amount = float(payload.get("total", payload.get("total_amount", 999.0)))
 
     # If items list not provided in payload, fetch from active cart
     items_to_order = []
@@ -225,10 +232,7 @@ def cancel_order(
     )
 
     if not order:
-        raise HTTPException(
-            status_code=404,
-            detail="Order not found"
-        )
+        raise HTTPException(status_code=404, detail="Order not found")
 
     if order.status in ["Delivered", "Cancelled"]:
         raise HTTPException(

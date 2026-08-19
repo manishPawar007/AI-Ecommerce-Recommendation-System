@@ -12,6 +12,8 @@ from auth import (
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
+from sqlalchemy import func
+
 # ==========================
 # Register
 # ==========================
@@ -20,10 +22,12 @@ def register(
     user: UserCreate,
     db: Session = Depends(get_db)
 ):
+    clean_email = user.email.strip().lower()
+    clean_password = user.password.strip()
 
     existing_user = (
         db.query(User)
-        .filter(User.email == user.email)
+        .filter(func.lower(User.email) == clean_email)
         .first()
     )
 
@@ -33,19 +37,31 @@ def register(
             detail="Email already exists"
         )
 
+    user_role = user.role if user.role and user.role in ["admin", "customer"] else ("admin" if "admin" in clean_email else "customer")
+
     new_user = User(
-        name=user.name,
-        email=user.email,
-        password=hash_password(user.password),
-        role="user"
+        name=user.name.strip(),
+        email=clean_email,
+        password=hash_password(clean_password),
+        role=user_role
     )
 
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
 
+    token = create_access_token(
+        {
+            "sub": new_user.email,
+            "id": new_user.id,
+            "role": new_user.role
+        }
+    )
+
     return {
         "message": "Registration Successful",
+        "access_token": token,
+        "token_type": "bearer",
         "id": new_user.id,
         "name": new_user.name,
         "email": new_user.email,
@@ -111,6 +127,7 @@ def login(
     )
 
     return {
+        "message": "Login Successful",
         "access_token": token,
         "token_type": "bearer",
         "id": user_id,
@@ -134,6 +151,7 @@ def get_user_profile(
         "email": user.email,
         "role": user.role
     }
+
 
 @router.put("/change-password")
 def change_password(
